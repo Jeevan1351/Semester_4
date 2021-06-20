@@ -11,4 +11,6 @@ module.exports = app => {
 
     app.get("/student/:gid", student.student)
 
+    app.put("/student/grades", student.updateGrades)
+
 } 

@@ -16,6 +16,8 @@ insert into login values("21", "Proctor");
 insert into login values("22", "Proctor");
 insert into login values("23", "Proctor");
 delete from login where g_id = "108960148661406427027";
+delete from login where g_id = "003311224";
+delete from login where g_id = "1";
 
 drop table student;
 select * from student;
@@ -38,6 +40,7 @@ insert into student values("4",  "Jeevan3", "1BM3", "CSE", "j@V1.C", "+321","13-
 delete from student where batch = "2023";
 select * from student s, proctor p where s.proctor_id = 12 and p.p_id and s.proctor_id = p.p_id;
 select * from student s, proctor p where s.g_id = 1 and s.proctor_id = p.p_id;
+select * from student where proctor_id = "21";
 
 select * from proctor;
 describe proctor;
@@ -55,6 +58,7 @@ insert into proctor values("21", "Selva Kumar sir", "sks.cse@bmsce.ac.in", "+432
 insert into proctor values("22", "Vikranth BM sir", "vbm.cse@bmsce.ac.in", "+4321");
 insert into proctor values("23", "Rekha GS", "rekha.cse@bmsce.ac.in", "+4321");
 delete from proctor where mobile_no = "+4321";
+select * from proctor where p_id = "21";
 select count(*) from student where proctor_id = 10;
 
 select * from courses;
@@ -113,6 +117,8 @@ insert into marks values("1BM19CS084", "18EE1ESELE", 40, 20, 35, 23, 46, 65, "pa
 insert into marks values("1BM19CS084", "18ME1ESEED", 36, 35, 39, null, 47, 78, "pass");
 insert into marks values("1BM19CS084", "18CV1ESENM", 36, 35, 39, null, 47, 78, "pass");
 insert into marks values("1BM19CS084", "18HS1NCENG", 36, 35, 39, null, 47, 78, "pass");
+select * from marks where m_usn = "1BM19CS084" and m_course_id = "18CS2ESCCP";
+update marks set cie1 = 20, cie2 = 40, cie3 = 30, lab = 18, internal = 40, see = 75, status = "pass" where m_course_id = "18CS2ESCCP";
 
 
 

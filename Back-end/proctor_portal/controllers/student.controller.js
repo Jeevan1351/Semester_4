@@ -13,6 +13,20 @@ exports.profiles = (req, res) => {
 }
 
 
+exports.updateGrades = (req, res) => {
+    // const student = new Student()
+    Student.updateGrades(req.body, (err, data) => {
+        if(err){
+            res.status(500).send({
+                message: "Some error"
+            })
+            return
+        }
+        res.send(data)
+    })
+}
+
+
 exports.grades = (req, res) => {
     Student.get_grades(req.params.gid, (err, data) => {
         if(err){

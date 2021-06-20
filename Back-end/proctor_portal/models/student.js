@@ -7,6 +7,7 @@ const Student =function(student) {
     // this.profile = student.profile
 }
 
+
 Student.get_profile = (gid, result) => {
     const get_student = sql.query(`select * from student where g_id = "${gid}";`, (err, res) => {
         if(err){
@@ -105,5 +106,56 @@ Student.get_student =(gid, result) => {
         })
     })
 }
+
+
+
+Student.updateGrades = (grades, result)=> {
+    var check_course = sql.query(`select count(*) as count from marks where m_usn = "${grades.m_usn}" and m_course_id = "${grades.course_id}";`, (err, res)=> {
+        if (err){
+            console.log("Error", err)
+            result(err, null)
+            return
+        }
+        // console.log(res)
+        if(res[0].count == 1)
+        {
+            // console.log(check_course.sql, res)
+            var up_marks = sql.query(`update marks set cie1 = ${grades.cie1}, cie2 = ${grades.cie2}, cie3 = ${grades.cie3}, lab = ${grades.lab}, internal = ${grades.internal}, see = ${grades.see}, status = "${grades.status}" where m_course_id = "${grades.course_id}";`, (err, res) => {
+                if(err) {
+                    console.log("Error", err)
+                    console.log("MAggi")
+                    result(err, null)
+                    return
+                }
+                if(res){
+                    console.log(res, up_marks.sql)
+                    grades.message= "Marks Updated"
+                    result(null, grades)
+                    return
+                }
+                result({weird: "WeirdError"}, null)
+                return
+            })
+        }
+        else{
+            console.log(check_course.sql, res)
+            var insert_grades = sql.query(`insert into marks values("${grades.m_usn}","${grades.course_id}", ${grades.cie1}, ${grades.cie2}, ${grades.cie3}, ${grades.lab}, ${grades.internal}, ${grades.see}, status = "${grades.status}");`, (err, res)=>{
+                if(err){
+                    console.log(err)
+                    result(err, null)
+                    return
+                }
+                // console.log(res)
+                console.log(res, "Inserted grades!", insert_grades.sql)
+                result(null, {message: "Updated Values"})
+                return
+            })
+        }
+    })
+}
+
+
+
+
 
 module.exports = Student
