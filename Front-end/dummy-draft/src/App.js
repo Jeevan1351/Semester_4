@@ -282,9 +282,18 @@ class HomePage extends React.Component{
       status: true,
       role: "Student",
       data: {department: "CSE", batch:"2024"},
-      isSignedIn: false
+      isSignedIn: false,
+      profile:{
+        department:"",
+        batch: ""
+      },
+      proctor: {
+        p_name:"",
+        p_email:""
+      }
     }
   }
+
   async componentDidMount(){
   const authInstance = window.gapi.auth2.getAuthInstance()
   const user = authInstance.currentUser.get()
@@ -308,6 +317,25 @@ class HomePage extends React.Component{
   }))
   }
 
+  cleanGrades(grades, sem){
+    var i = 1
+    var group = {}
+    if(grades.message === "No grades found"){
+      return
+    }
+    while(i<= sem){
+      group[i] = []
+      grades.forEach(element => {
+        if (element.semester === i){
+          group[i].push(element)
+        }
+      })
+      console.log(group)
+    }
+  }
+
+
+
   what_to_do(Component){
     console.log(this.state.role, this.state.isSignedIn)
     if (this.state.status && this.state.role === "Student"){
@@ -318,11 +346,13 @@ class HomePage extends React.Component{
         this.setState({
           profile: value.profile,
           details: value.details,
-          proctor: value.proc.p_name,
-          grades: value.grades,
+          proctor: value.proc,
+          grades: value.marks,
           isSignedIn: true
         })
+        this.cleanGrades(value.marks, value.profile.semester)
       }))
+      
     }
       return (
         Component
@@ -364,7 +394,7 @@ class HomePage extends React.Component{
                     <div className="col-md-6">
                         <div className="profile-head">
                                     <h5>
-                                       {this.state.name} {this.state.data.department}-{this.state.data.batch}
+                                       {this.state.name} {this.state.profile.department}-{this.state.profile.batch}
                                     </h5>
                             <ul className="nav nav-tabs" id="myTab" role="tablist">
                                 <li className="nav-item">
@@ -381,9 +411,9 @@ class HomePage extends React.Component{
                     <div className="col-md-4">
                         <div className="profile-work">
                             <p>Proctor</p>
-                            <p id = "p_details">{this.state.proctor}</p>
-                            <p id = "p_details">{this.state.data.p_email}</p>
-                            <p id = "p_details">{this.state.data.p_mobile_no}</p>
+                            <p id = "p_details">{this.state.proctor.p_name}</p>
+                            <p id = "p_details">{this.state.proctor.p_email}</p>
+                            <p id = "p_details">{this.state.proctor.p_mobile_no}</p>
                         </div>
                     </div>
                     <div className="col-md-8">
@@ -418,7 +448,7 @@ class HomePage extends React.Component{
                                                 <label>Date of birth</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>{this.state.dob}</p>
+                                                <p>{this.state.profile.dob}</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -426,7 +456,7 @@ class HomePage extends React.Component{
                                                 <label>Semester</label>
                                             </div>
                                             <div className="col-md-6">
-                                                <p>4</p>
+                                                <p>{this.state.profile.semester}</p>
                                             </div>
                                         </div>
                                         <div>

@@ -94,6 +94,7 @@ Student.get_student =(gid, result) => {
             data.proc = proc
             console.log(proc)
             fetch(`http://localhost:8000/student/grades/${gid}`).then(res => res.json()).then((grades) => {
+                // grades.message = "Found"
                 data.marks = grades
                 console.log(grades)
                 fetch(`http://localhost:8000/student/details/${gid}`).then(res => res.json()).then((details) => {
