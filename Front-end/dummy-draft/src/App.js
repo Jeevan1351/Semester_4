@@ -46,6 +46,7 @@ class App extends React.Component {
       }).then(() => {
         const authInstance =  window.gapi.auth2.getAuthInstance()
         const isSignedIn = authInstance.isSignedIn.get()
+        console.log(isSignedIn)
         this.setState({isSignedIn})
         authInstance.isSignedIn.listen(isSignedIn => {
           this.state.isSignedIn?window.location.replace("/"):window.location.replace("/home")
@@ -278,8 +279,10 @@ class HomePage extends React.Component{
       email:0,
       img:0,
       gId:10000,
-      data:0,
-      status: true
+      status: true,
+      role: "Student",
+      data: {department: "CSE", batch:"2024"},
+      isSignedIn: false
     }
   }
   async componentDidMount(){
@@ -298,19 +301,32 @@ class HomePage extends React.Component{
       email:email,
       img:img,
       gId:googleId,
-      proctor:value.p_name,
-      dob: value.dob,
-      data:value,
+      role:value.role,
+      message: value.message,
       status: value.message==="Not found user"?false:true
     })
   }))
   }
 
   what_to_do(Component){
-    if (this.state.status)
+    console.log(this.state.role, this.state.isSignedIn)
+    if (this.state.status && this.state.role === "Student"){
+      if(this.state.message === "User Found" && this.state.isSignedIn === false){
+        // console.log(this.state)
+      fetch(`student/${this.state.gId}`).then(res => res.json().then( value=> {
+        console.log(value)
+        this.setState({
+          profile: value.profile,
+          details: value.details,
+          proctor: value.proc.p_name,
+          grades: value.grades,
+          isSignedIn: true
+        })
+      }))
+    }
       return (
         Component
-      )
+      )}
       else
       return (<>
         <h1> </h1>

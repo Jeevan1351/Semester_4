@@ -64,6 +64,7 @@ User.findUser = (gid, result) => {
         if(res.length){
             console.log("User found!", res[0])
             console.log(select_user.sql)
+            res[0].message = "User Found"
             result(null, res[0])
             return
         }

@@ -76,7 +76,7 @@ Student.get_details = (gid, result)=> {
         if(res.length){
             console.log(get_student_details.sql)
             console.log(res)
-            result(null, res)
+            result(null, res[0])
             return
         }
         console.log("No details found!")
