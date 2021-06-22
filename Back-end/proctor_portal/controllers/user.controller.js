@@ -11,23 +11,6 @@ exports.create = (req, res) => {
         role:req.body.role,
         profile: req.body.profile,
         details: req.body.details
-        
-        // {
-        //     name:req.body.name,
-        //     dob:req.body.dob,
-        //     proctor:req.body.proctor,
-        //     email:req.body.email,
-        //     semester: req.body.semester,
-        //     mobile_no: req.body.mobile_no,
-        //     proctor_id:0,
-        //     batch: req.body.batch,
-        //     usn: req.body.usn,
-        //     department: req.body.department,
-        //     section: req.body.section,
-        //     marks: req.body.marks
-        // }
-
-
     })
     User.create(user, (err, data) => {
         if (err)

@@ -27,6 +27,21 @@ exports.updateGrades = (req, res) => {
 }
 
 
+exports.updateAllGrades = (req, res) => {
+    Student.setAllGrades(req.body, (err, data)=> {
+        if(err){
+            console.log(err)
+            res.status(500).send({
+                message: "error!"
+            })
+            return
+        }
+        res.send(data)
+    })
+}
+
+
+
 exports.grades = (req, res) => {
     Student.get_grades(req.params.gid, (err, data) => {
         if(err){
