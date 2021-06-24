@@ -62,6 +62,8 @@ select * from proctor where p_id = "21";
 select count(*) from student where proctor_id = 10;
 
 select * from courses;
+drop table courses;
+truncate table courses;
 describe courses;
 create table courses (course_id varchar(20), course_name varchar(100), credits int, course_semester int, course_department varchar(10));
 alter table courses add primary key (course_id);
@@ -81,16 +83,18 @@ insert into courses values("18ME1ESEED", "Elememts of Engineering Drawing", 4, 1
 insert into courses values("18CV1ESENM", "Engineering Mechanics", 4, 1, "CSE");
 insert into courses values("18HS1NCENG", "Functional English", 0, 1, "CSE");
 insert into courses values("18MA2BSEM2", "Engineering Mathematics-2", 4, 2, "CSE");
-insert into courses values("18PY2BSPHY", "Applied Physics", 5, 1, "CSE");
+insert into courses values("18PY2BSPHY", "Applied Physics", 5, 2, "CSE");
 insert into courses values("18EC2ESECE", "Elememts of Electronics Engineering", 3, 2, "CSE");
 insert into courses values("18ME2ESEME", "Elememts of Mechanical Engineering", 4, 2, "CSE");
 insert into courses values("18CS2ESCCP", "C Programming", 4, 2, "CSE");
-insert into courses values("18HS2NCKAN", "Functional English", 0, 2, "CSE");
+insert into courses values("18HS2NCKAN", "Functional Kannada", 0, 2, "CSE");
+
 
 
 
 
 drop table marks;
+truncate table marks;
 select * from marks;
 describe marks;
 create table marks(m_usn varchar(20), m_course_id varchar(20), cie1 int, cie2 int, cie3 int,lab int, internal int, see int, status varchar(20));
@@ -119,7 +123,7 @@ insert into marks values("1BM19CS084", "18CV1ESENM", 36, 35, 39, null, 47, 78, "
 insert into marks values("1BM19CS084", "18HS1NCENG", 36, 35, 39, null, 47, 78, "pass");
 select * from marks where m_usn = "1BM19CS084" and m_course_id = "18CS2ESCCP";
 update marks set cie1 = 20, cie2 = 40, cie3 = 30, lab = 18, internal = 40, see = 75, status = "pass" where m_course_id = "18CS2ESCCP";
-
+delete from marks where m_course_id = "18CS2ESCCP";
 
 
 

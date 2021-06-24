@@ -46,7 +46,7 @@ class App extends React.Component {
       }).then(() => {
         const authInstance =  window.gapi.auth2.getAuthInstance()
         const isSignedIn = authInstance.isSignedIn.get()
-        console.log(isSignedIn)
+        // console.log(isSignedIn)
         this.setState({isSignedIn})
         authInstance.isSignedIn.listen(isSignedIn => {
           this.state.isSignedIn?window.location.replace("/"):window.location.replace("/home")
@@ -290,7 +290,8 @@ class HomePage extends React.Component{
       proctor: {
         p_name:"",
         p_email:""
-      }
+      },
+      gradesReal: [[{course_semester: 10, course_id: 1}, {course_semester: 9, course_id: 2}, {course_semester: 8, course_id:3}]]
     }
   }
 
@@ -312,32 +313,42 @@ class HomePage extends React.Component{
       gId:googleId,
       role:value.role,
       message: value.message,
-      status: value.message==="Not found user"?false:true
+      status: value.message==="Not found user"?false:true      
     })
   }))
   }
 
+  computeCGPA(){
+    
+  }
+
+
   cleanGrades(grades, sem){
     var i = 1
-    var group = {}
+    var group = []
     if(grades.message === "No grades found"){
       return
     }
-    while(i<= sem){
+    while(i< sem){
       group[i] = []
-      grades.forEach(element => {
-        if (element.semester === i){
+      for(var j = 0; j<grades.length; j++){
+        var element = grades[j]
+        // console.log(element)
+        if (element.course_semester === i){
           group[i].push(element)
         }
-      })
-      console.log(group)
+      }
+      // console.log(group)
+      i += 1
     }
+    this.setState({gradesReal: group})
+    this.computeCGPA()
   }
 
 
 
   what_to_do(Component){
-    console.log(this.state.role, this.state.isSignedIn)
+    // console.log(this.state.role, this.state.isSignedIn)
     if (this.state.status && this.state.role === "Student"){
       if(this.state.message === "User Found" && this.state.isSignedIn === false){
         // console.log(this.state)
@@ -356,7 +367,8 @@ class HomePage extends React.Component{
     }
       return (
         Component
-      )}
+      )
+    }
       else
       return (<>
         <h1> </h1>
@@ -384,261 +396,101 @@ class HomePage extends React.Component{
       </Navbar>
       {this.what_to_do(<>
       <div className="container emp-profile">
-            <form method="post">
-                <div className="row">
-                    <div className="col-md-4">
-                        <div className="profile-img">
-                            <Image src={this.state.img} alt="" width = "2" className ="image-rounded"/>
-                        </div>
+        <form method="post">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="profile-img">
+                  <Image src={this.state.img} alt="" width = "2" rounded/>
+              </div>
+          </div>
+          <div className="col-md-6">
+              <div className="profile-head">
+                          <h5>{this.state.name}</h5>
+                          <h5>{this.state.profile.department} Deaprtment</h5>
+                          <h5>Batch - {this.state.profile.batch}</h5>
+                          <h5>Proctor - {this.state.proctor.p_name}</h5>
+                          <h5>Proctor email - {this.state.proctor.p_email}</h5>
+                          <h5>Proctor Mobile No: {this.state.proctor.p_mobile_no}</h5>
+              </div>
+          </div>
+          <div className="col-md-2">
+              <input type="submit"  onClick = {this.state.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
+          </div>
+      </div>
+        <div className="profile-tab" >
+            <div id="home" aria-labelledby="home-tab">
+            <br></br><br></br>
+              <div className="row">
+                  <div className="col-md-2">
+                      <label>Name :</label>
+                  </div>
+                  <div className="col-md-4">
+                      <p>{this.state.name}</p>
+                  </div>
+              </div>
+              <div className="row">
+                  <div className="col-md-2">
+                      <label>Email :</label>
+                  </div>
+                  <div className="col-md-4">
+                      <p>{this.state.email}</p>
+                  </div>
+              </div>
+              <div className="row">
+                  <div className="col-md-2">
+                      <label>Date of Birth : </label>
+                  </div>
+                  <div className="col-md-2">
+                      <p>{this.state.profile.dob}</p>
+                  </div>
+              </div>
+              <div className="row">
+                  <div className="col-md-2">
+                      <label>Semester : </label>
+                  </div>
+                  <div className="col-md-2">
+                      <p>{this.state.profile.semester}</p>
+                  </div>
+              </div>
+              <div>
+                {
+                  this.state.gradesReal.map((semester, i)=> {
+                    // console.log("**", semester.course_semester)
+                    return <div key={i}><Table responsive="sm">
+                      <thead>
+                      <tr>
+                        <th>Semester : {semester[0].course_semester}</th>
+                        <th>Course Name</th>
+                        <th>Credits</th>
+                        <th>Internals</th>
+                        <th>Semester</th>
+                      </tr>
+                      </thead>
+                      <tbody>{
+                        semester.map((courses, idx)=> {
+                          return (<tr key={idx}>
+                            <td>{courses.course_id}</td>
+                            <td>{courses.course_name}</td>
+                            <td>{courses.credits}</td>
+                            <td>{courses.internal}</td>
+                            <td>{courses.see}</td>
+                            </tr>)
+                        })
+                          }
+                          </tbody>  
+                    </Table>
                     </div>
-                    <div className="col-md-6">
-                        <div className="profile-head">
-                                    <h5>
-                                       {this.state.name} {this.state.profile.department}-{this.state.profile.batch}
-                                    </h5>
-                            <ul className="nav nav-tabs" id="myTab" role="tablist">
-                                <li className="nav-item">
-                                    <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Basic Profile</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="col-md-2">
-                        <input type="submit"  onClick = {this.state.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
-                    </div>
+                    })
+                }
                 </div>
-                <div className="row">
-                    <div className="col-md-4">
-                        <div className="profile-work">
-                            <p>Proctor</p>
-                            <p id = "p_details">{this.state.proctor.p_name}</p>
-                            <p id = "p_details">{this.state.proctor.p_email}</p>
-                            <p id = "p_details">{this.state.proctor.p_mobile_no}</p>
-                        </div>
-                    </div>
-                    <div className="col-md-8">
-                        <div className="tab-content profile-tab" id="myTabContent">
-                            <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <label>User Google Id</label>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <p>{this.state.gId}</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <label>Name</label>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <p>{this.state.name}</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <label>Email</label>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <p>{this.state.email}</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <label>Date of birth</label>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <p>{this.state.profile.dob}</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <label>Semester</label>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <p>{this.state.profile.semester}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                          <Table responsive="sm">
-                                            <thead>
-                                              <tr>
-                                                <th>Sem 4</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <td>1</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>2</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>3</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                            </tbody>
-                                          </Table>
-                                          <Table responsive="md">
-                                            <thead>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <td>1</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>2</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>3</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                            </tbody>
-                                          </Table>
-                                          <Table responsive="lg">
-                                            <thead>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <td>1</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>2</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>3</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                            </tbody>
-                                          </Table>
-                                          <Table responsive="xl">
-                                            <thead>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                                <th>Table heading</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <td>1</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>2</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                              <tr>
-                                                <td>3</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                                <td>Table cell</td>
-                                              </tr>
-                                            </tbody>
-                                          </Table>
-                                        </div>
-                            </div>
-                        </div>
-                </div>
-                </div>
-            </form>           
+              </div>
+            </div>
+          </form>           
         </div>
       </>)}
     </>
-      );
-}
+    );
+  }  
 }
 
 
