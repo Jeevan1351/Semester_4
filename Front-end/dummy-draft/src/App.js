@@ -279,6 +279,7 @@ class HomePage extends React.Component{
       email:0,
       img:0,
       gId:10000,
+      sgpa:[0],
       status: true,
       role: "Student",
       data: {department: "CSE", batch:"2024"},
@@ -304,7 +305,7 @@ class HomePage extends React.Component{
   const img = profile.getImageUrl();
   const googleId = profile.getId();
   await fetch(`user/${googleId}`).then(res => res.json().then(value => {
-    console.log(value)
+    // console.log(value)
     this.setState({
       authInstance: authInstance,
       name:name,
@@ -318,42 +319,92 @@ class HomePage extends React.Component{
   }))
   }
 
-  computeCGPA(){
-    
+  computeCGPA(credits, sem){
+    var i = 1
+    var cgpa = 0
+    var sum = 0
+    var s = {}
+    // console.log(credits)
+    // credits.map((val)=>{
+    //   sum += val
+    // })
+
+    for(; i<sem; i++){
+      var sgpa = 0
+      var grades = this.state.gradesReal[i]
+      grades.map(course => {
+        // console.log(course.internal+(course.see/2))
+        var score = 0
+        score = course.internal+(course.see/2)
+        if(score>= 90){
+          sgpa += 10*course.credits
+        }
+        else if(score>= 80){
+          sgpa += 9*course.credits
+        }
+        else if(score>= 75){
+          sgpa += 8*course.credits
+        }
+        else if(score>= 60){
+          sgpa += 7*course.credits
+        }
+        else if(score>= 50){
+          sgpa += 6*course.credits
+        }
+        else if(score>= 40){
+          sgpa += 5*course.credits
+        }
+        else{
+          sgpa += 0
+        }
+        // console.log(score)
+      })
+      cgpa += sgpa
+      sgpa /= credits[i]
+      sum += credits[i]
+      s[i] = sgpa
+      // console.log(i, sgpa)
+    }
+    cgpa /= sum
+    console.log(cgpa)
+    this.setState({sgpa: s, cgpa: cgpa})
   }
 
 
   cleanGrades(grades, sem){
     var i = 1
     var group = []
+    var t_c = {}
     if(grades.message === "No grades found"){
       return
     }
     while(i< sem){
+      var total_credits = 0
       group[i] = []
       for(var j = 0; j<grades.length; j++){
         var element = grades[j]
         // console.log(element)
         if (element.course_semester === i){
+          total_credits += element.credits
+          
           group[i].push(element)
+          
         }
       }
+      t_c[i] = total_credits
       // console.log(group)
       i += 1
     }
     this.setState({gradesReal: group})
-    this.computeCGPA()
+    this.computeCGPA(t_c, sem)
   }
 
 
 
   what_to_do(Component){
-    // console.log(this.state.role, this.state.isSignedIn)
     if (this.state.status && this.state.role === "Student"){
       if(this.state.message === "User Found" && this.state.isSignedIn === false){
-        // console.log(this.state)
       fetch(`student/${this.state.gId}`).then(res => res.json().then( value=> {
-        console.log(value)
         this.setState({
           profile: value.profile,
           details: value.details,
@@ -455,6 +506,8 @@ class HomePage extends React.Component{
               <div>
                 {
                   this.state.gradesReal.map((semester, i)=> {
+                    var sem = semester[0].course_semester
+                    var sgpa = this.state.sgpa[sem]
                     // console.log("**", semester.course_semester)
                     return <div key={i}><Table responsive="sm">
                       <thead>
@@ -477,7 +530,16 @@ class HomePage extends React.Component{
                             </tr>)
                         })
                           }
-                          </tbody>  
+                          </tbody>
+                          <thead>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Semester GPA :   {(sgpa)?sgpa.toFixed(2):sgpa}</th>
+                        <th></th>
+                      </tr>
+                      </thead>  
                     </Table>
                     </div>
                     })
