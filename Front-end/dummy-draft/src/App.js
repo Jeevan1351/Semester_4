@@ -307,7 +307,6 @@ class HomePage extends React.Component{
   const img = profile.getImageUrl();
   const googleId = profile.getId();
   await fetch(`user/${googleId}`).then(res => res.json().then(value => {
-    // console.log(value)
     this.setState({
       authInstance: authInstance,
       name:name,
@@ -326,16 +325,11 @@ class HomePage extends React.Component{
     var cgpa = 0
     var sum = 0
     var s = {}
-    // console.log(credits)
-    // credits.map((val)=>{
-    //   sum += val
-    // })
 
     for(; i<sem; i++){
       let sgpa = 0
       var grades = this.state.gradesReal[i]
       grades.map(course => {
-        // console.log(course.internal+(course.see/2))
         var score = 0
         score = course.internal+(course.see/2)
         if(score>= 90){
@@ -365,7 +359,6 @@ class HomePage extends React.Component{
       sgpa /= credits[i]
       sum += credits[i]
       s[i] = sgpa
-      // console.log(i, sgpa)
     }
     cgpa /= sum
     console.log(cgpa)
@@ -385,7 +378,6 @@ class HomePage extends React.Component{
       group[i] = []
       for(var j = 0; j<grades.length; j++){
         var element = grades[j]
-        // console.log(element)
         if (element.course_semester === i){
           total_credits += element.credits
           
@@ -394,7 +386,6 @@ class HomePage extends React.Component{
         }
       }
       t_c[i] = total_credits
-      // console.log(group)
       i += 1
     }
     this.setState({gradesReal: group})
