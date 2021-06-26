@@ -48,7 +48,7 @@ Student.get_proc = (gid, result) => {
 
 
 Student.get_grades = (gid, result) => {
-    const get_grades_query = sql.query(`select c.course_id, c.course_name, c.credits, c.course_semester, c.course_department, m.cie1, m.cie2, m.cie3, m.lab, m.internal, m.see from student s, marks m, courses c where s.g_id = "${gid}" and s.usn = m.m_usn and m.m_course_id = c.course_id;`, (err, res) => {
+    const get_grades_query = sql.query(`select c.course_id, c.course_name, c.credits, c.course_semester, c.course_department, m.internal, m.see from student s, marks m, courses c where s.g_id = "${gid}" and s.usn = m.m_usn and m.m_course_id = c.course_id;`, (err, res) => {
         if(err){
             console.log("Error")
             result(err, null)

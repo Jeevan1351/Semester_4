@@ -273,6 +273,7 @@ class SignUp extends React.Component{
 class HomePage extends React.Component{
   constructor(props){
     super(props)
+    this.changeEditable = this.changeEditable.bind(this)
     this.state = {
       authInstance:0,
       name:false,
@@ -292,7 +293,8 @@ class HomePage extends React.Component{
         p_name:"",
         p_email:""
       },
-      gradesReal: [[{course_semester: 10, course_id: 1}, {course_semester: 9, course_id: 2}, {course_semester: 8, course_id:3}]]
+      gradesReal: [[{course_semester: 10, course_id: 1}, {course_semester: 9, course_id: 2}, {course_semester: 8, course_id:3}]],
+      editable: 0
     }
   }
 
@@ -330,7 +332,7 @@ class HomePage extends React.Component{
     // })
 
     for(; i<sem; i++){
-      var sgpa = 0
+      let sgpa = 0
       var grades = this.state.gradesReal[i]
       grades.map(course => {
         // console.log(course.internal+(course.see/2))
@@ -357,7 +359,7 @@ class HomePage extends React.Component{
         else{
           sgpa += 0
         }
-        // console.log(score)
+       return 0
       })
       cgpa += sgpa
       sgpa /= credits[i]
@@ -426,6 +428,35 @@ class HomePage extends React.Component{
         {window.location.replace('/signup')}
       </>)
   }
+
+  changeEditable(){
+    console.log("Boom")
+    if(this.state.editable === 0){
+      var e_marks = document.getElementsByClassName("editable")
+      for (var j=0; j < e_marks.length; j++) {
+        e_marks[j].removeAttribute('readOnly')
+      }
+      this.setState({editable: 1})
+    }
+    else{
+      var e_mark = document.getElementsByClassName("editable")
+      for (var i=0; i < e_mark.length; i++) {
+        e_mark[i].setAttribute('readOnly', 'readOnly')
+      }
+      this.setState({editable: 0})
+      let cgrades = this.state.grades
+      let l = cgrades.length
+      for(let k = 0;k<l; k++) {
+        var course = cgrades[k]
+        var elements = document.getElementsByClassName(course.course_id)
+        cgrades[k].internal = parseInt(elements[0].value)
+        cgrades[k].see = parseInt(elements[1].value)
+      }
+      this.setState({grades: cgrades})
+      this.cleanGrades(cgrades, this.state.profile.semester)
+    }
+  }
+
 
   render(){
   return (
@@ -504,11 +535,13 @@ class HomePage extends React.Component{
                   </div>
               </div>
               <div>
+                <div>
+                  <input id="edit" className="profile-edit-btn" type="button" onClick={this.changeEditable} value={(this.state.editable)?"Update":"Edit"}/>
+                </div>
                 {
                   this.state.gradesReal.map((semester, i)=> {
                     var sem = semester[0].course_semester
                     var sgpa = this.state.sgpa[sem]
-                    // console.log("**", semester.course_semester)
                     return <div key={i}><Table responsive="sm">
                       <thead>
                       <tr>
@@ -525,8 +558,8 @@ class HomePage extends React.Component{
                             <td>{courses.course_id}</td>
                             <td>{courses.course_name}</td>
                             <td>{courses.credits}</td>
-                            <td>{courses.internal}</td>
-                            <td>{courses.see}</td>
+                            <td><input type="text" readOnly='readOnly' className={`editable ${courses.course_id} ${courses.course_semester}`} defaultValue={courses.internal}/></td>
+                            <td><input type="text" readOnly='readOnly' className={`editable ${courses.course_id} ${courses.course_semester}`} defaultValue={courses.see}/></td>
                             </tr>)
                         })
                           }

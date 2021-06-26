@@ -59,3 +59,10 @@ body{
   padding-left: 10%;
   width: 100%;
 }
+#edit{
+  float: right;
+  width: 10%;
+  height: 10%;
+  padding: 0.5% 10% 0.5% 6%;
+}
+
