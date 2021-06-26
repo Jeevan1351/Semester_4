@@ -401,8 +401,6 @@ class HomePage extends React.Component{
     this.computeCGPA(t_c, sem)
   }
 
-
-
   what_to_do(Component){
     if (this.state.status && this.state.role === "Student"){
       if(this.state.message === "User Found" && this.state.isSignedIn === false){
@@ -456,7 +454,6 @@ class HomePage extends React.Component{
       this.cleanGrades(cgrades, this.state.profile.semester)
     }
   }
-
 
   render(){
   return (
