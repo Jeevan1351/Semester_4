@@ -289,26 +289,14 @@ class HomePage extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      authInstance:0,
-      name:false,
-      email:0,
-      img:0,
-      gId:10000,
-      sgpa:[0],
-      status: null,
-      role: "Student",
-      data: {department: "CSE", batch:"2024"},
-      isSignedIn: false,
-      profile:{
-        department:"",
-        batch: ""
-      },
-      proctor: {
-        p_name:"",
-        p_email:""
-      },
-      gradesReal: [[{course_semester: 10, course_id: 1}, {course_semester: 9, course_id: 2}, {course_semester: 8, course_id:3}]],
-      editable: 0
+      authInstance: 0,
+      name: 0,
+      email: 0,
+      img: 0,
+      gId: 0,
+      role:0,
+      message: 0,
+      status: null      
     }
   }
 
@@ -336,17 +324,14 @@ class HomePage extends React.Component{
 
   what_to_do(){
     if (this.state.gId !== 10000 && this.state.role === "Student"){
-      console.log(this.state.status, this.state.gId)
+      // console.log(this.state.status, this.state.gId)
       return (
         <StudentHome data = {this.state}/>
       )
     }
     if(this.state.status && this.state.role === "Proctor")
     {
-      return ( <>
-        
-      </>
-      );
+      return (<ProctorHome data = {this.state}/>);
     
     }
     if(this.state.status === false)
@@ -381,18 +366,99 @@ class HomePage extends React.Component{
 }
 
 
+class ProctorHome extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      authInstance:this.props.data.authInstance,
+      name:false,
+      email:0,
+      img:0,
+      gId:10000,
+      sgpa:[0],
+      status: true,
+      role: "Student",
+      data: {department: "CSE", batch:"2024"},
+      isSignedIn: false,
+      profile:{
+        department:"",
+        batch: ""
+      }
+    }
+  }
+
+  componentDidMount(){
+    fetch(`http://localhost:8000/proctor/${this.props.data.gId}`).then(res => res.json().then(value => {
+      console.log(value)
+      this.setState({profile: value})
+    }))
+  }
+
+  render(){
+    return(<>
+      <div className="container emp-profile">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="profile-img">
+                  <Image src={this.props.data.img} alt="" width = "2" rounded/>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="profile-head">
+                <h5>Name: {this.state.profile.p_name}</h5>
+                <h5>Email: {this.state.profile.p_email}</h5>
+                <h5>Phone Number: {this.state.profile.p_mobile_no}</h5>
+              </div>
+            </div>
+          <div className="col-md-2">
+            <input type="submit"  onClick = {this.state.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
+          </div>
+      </div>
+        <div className="profile-tab" >
+            <div id="home" aria-labelledby="home-tab">
+              <br></br><br></br>
+            </div>
+          </div>           
+        </div>
+      </>)
+  }
+}
+
+
+
 class StudentHome extends React.Component {
   constructor(props){
     super(props)
     this.changeEditable = this.changeEditable.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
-    this.state = this.props.data
+    this.state = {
+      authInstance:0,
+      name:false,
+      email:0,
+      img:0,
+      gId:10000,
+      sgpa:[0],
+      status: null,
+      role: "Student",
+      data: {department: "CSE", batch:"2024"},
+      isSignedIn: false,
+      profile:{
+        department:"",
+        batch: ""
+      },
+      proctor: {
+        p_name:"",
+        p_email:""
+      },
+      gradesReal: [[{course_semester: 10, course_id: 1}, {course_semester: 9, course_id: 2}, {course_semester: 8, course_id:3}]],
+      editable: 0
+    }
   }
   async componentDidMount(){
-    console.log("Working")
-    console.log(this.props)
+    // console.log("Working")
+    // console.log(this.props)
     await fetch(`/student/${this.props.data.gId}`).then(res => res.json().then( value=> {
-      console.log(value)
+      // console.log(value)
       this.setState({
         profile: value.profile,
         details: value.details,
@@ -445,7 +511,7 @@ class StudentHome extends React.Component {
       s[i] = sgpa
     }
     cgpa /= sum
-    console.log(cgpa)
+    // console.log(cgpa)
     this.setState({sgpa: s, cgpa: cgpa})
   }
 
@@ -522,16 +588,16 @@ class StudentHome extends React.Component {
           <div className="row">
             <div className="col-md-4">
               <div className="profile-img">
-                  <Image src={this.state.img} alt="" width = "2" rounded/>
+                  <Image src={this.props.data.img} alt="" width = "2" rounded/>
               </div>
           </div>
           <div className="col-md-6">
               <div className="profile-head">
-                          <h5>{this.state.name}</h5>
+                          <h5>{this.state.profile.name}</h5>
                           <h5>{this.state.profile.department} Deaprtment</h5>
                           <h5>Batch - {this.state.profile.batch}</h5>
                           <h5>Proctor - {this.state.proctor.p_name}</h5>
-                          <h5>Proctor email - {this.state.proctor.p_email}</h5>
+                          <h5>Proctor Email - {this.state.proctor.p_email}</h5>
                           <h5>Proctor Mobile No: {this.state.proctor.p_mobile_no}</h5>
               </div>
           </div>
@@ -547,7 +613,7 @@ class StudentHome extends React.Component {
                       <label>Name :</label>
                   </div>
                   <div className="col-md-4">
-                      <p>{this.state.name}</p>
+                      <p>{this.state.profile.name}</p>
                   </div>
               </div>
               <div className="row">
@@ -555,7 +621,7 @@ class StudentHome extends React.Component {
                       <label>Email :</label>
                   </div>
                   <div className="col-md-4">
-                      <p>{this.state.email}</p>
+                      <p>{this.state.profile.email}</p>
                   </div>
               </div>
               <div className="row">

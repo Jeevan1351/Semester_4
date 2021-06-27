@@ -58,6 +58,7 @@ insert into proctor values("12", "Test1 sir", "T@12S.c", "+4321");
 insert into proctor values("21", "Selva Kumar sir", "sks.cse@bmsce.ac.in", "+4321");
 insert into proctor values("22", "Vikranth BM sir", "vbm.cse@bmsce.ac.in", "+4321");
 insert into proctor values("23", "Rekha GS", "rekha.cse@bmsce.ac.in", "+4321");
+insert into proctor values("110675810509613259155", "Puneeth Kumar", "puneethpk.cse@bmsce.ac.in", "+918050978125");
 delete from proctor where mobile_no = "+4321";
 select * from proctor where p_id = "21";
 select count(*) from student where proctor_id = 10;

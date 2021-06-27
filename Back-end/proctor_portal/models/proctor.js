@@ -1,4 +1,5 @@
 const sql = require('./db')
+const fetch = require('node-fetch')
 
 const Proctor = (p_id)=> {
     console.log(p_id)
@@ -40,5 +41,18 @@ Proctor.students = (pid, result) => {
     })
 }
 
+Proctor.getTotal = (pid, result) => {
+    data = {}
+    fetch(`http://localhost:8000/proctor/profile/${pid}`).then(res => res.json()).then((profile) => {
+        data.profile = profile
+        console.log(profile)
+        fetch(`http://localhost:8000/proctor/students/${pid}`).then(res => res.json()).then((proc) => {
+            data.students = proc
+            console.log(proc)
+            result(null, data)
+            return
+        })
+    })
+}
 
 module.exports = Proctor
