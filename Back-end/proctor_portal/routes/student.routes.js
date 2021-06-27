@@ -15,4 +15,4 @@ module.exports = app => {
 
     // app.put("/student/grades", student.updateAllGrades)
 
-} 
+}
