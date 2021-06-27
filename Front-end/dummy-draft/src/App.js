@@ -2,9 +2,9 @@ import React from "react";
 
 import BasicForm from "./home";
 
-import Bananna from "./SignUp";
+// import Bananna from "./SignUp";
 
-import {BrowserRouter, Route, Switch, Router} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import "./App.css";
 
@@ -14,25 +14,15 @@ import { Navbar, Nav, NavDropdown, Image, Table
 
  //import ReactPhone  from './phone'
 
- import fir_sem from './pages/1st_sem';
- import sec_sem from './pages/2nd_sem';
- import thir_sem from './pages/3rd_sem';
- import fort_sem from './pages/4th_sem';
- import fiv_sem from './pages/5th_sem';
- import six_sem from './pages/6th_sem';
- import Home from './pages/home';
- import sev_sem from './pages/7th_sem';
- import eig_sem from './pages/8th_sem';
- 
-
-
-
-
-
-
-
-
-
+//  import fir_sem from './pages/1st_sem';
+//  import sec_sem from './pages/2nd_sem';
+//  import thir_sem from './pages/3rd_sem';
+//  import fort_sem from './pages/4th_sem';
+//  import fiv_sem from './pages/5th_sem';
+//  import six_sem from './pages/6th_sem';
+//  import Home from './pages/home';
+//  import sev_sem from './pages/7th_sem';
+//  import eig_sem from './pages/8th_sem';
 class LandingPage extends React.Component{
   async componentDidMount(){
       window.gapi.load("signin2", ()=> {
@@ -98,7 +88,7 @@ class App extends React.Component {
                 <Switch>
                     <Route exact path="/"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path="/home"  render={() => this.ifUserSignedIn(HomePage)}/>
-                    <Route path='/signup' render={() => this.ifUserSignedIn(Bananna)}/>
+                    <Route path='/signup' render={() => this.ifUserSignedIn(<>mango</>)}/>
                 </Switch>
             </BrowserRouter>
       </div>
@@ -293,11 +283,11 @@ class App extends React.Component {
 
 
 
+
+
 class HomePage extends React.Component{
   constructor(props){
     super(props)
-    this.changeEditable = this.changeEditable.bind(this)
-    this.componentDidMount = this.componentDidMount.bind(this)
     this.state = {
       authInstance:0,
       name:false,
@@ -305,7 +295,7 @@ class HomePage extends React.Component{
       img:0,
       gId:10000,
       sgpa:[0],
-      status: true,
+      status: null,
       role: "Student",
       data: {department: "CSE", batch:"2024"},
       isSignedIn: false,
@@ -322,7 +312,7 @@ class HomePage extends React.Component{
     }
   }
 
-  async componentDidMount(){
+  componentDidMount(){
   const authInstance = window.gapi.auth2.getAuthInstance()
   const user = authInstance.currentUser.get()
   const profile = user.getBasicProfile();
@@ -330,7 +320,7 @@ class HomePage extends React.Component{
   const name = profile.getName();
   const img = profile.getImageUrl();
   const googleId = profile.getId();
-  await fetch(`user/${googleId}`).then(res => res.json().then(value => {
+  fetch(`user/${googleId}`).then(res => res.json().then(value => {
     this.setState({
       authInstance: authInstance,
       name:name,
@@ -342,6 +332,76 @@ class HomePage extends React.Component{
       status: value.message==="Not found user"?false:true      
     })
   }))
+  }
+
+  what_to_do(){
+    if (this.state.gId !== 10000 && this.state.role === "Student"){
+      console.log(this.state.status, this.state.gId)
+      return (
+        <StudentHome data = {this.state}/>
+      )
+    }
+    if(this.state.status && this.state.role === "Proctor")
+    {
+      return ( <>
+        
+      </>
+      );
+    
+    }
+    if(this.state.status === false)
+      return (<>
+        <h1> </h1>
+        {window.location.replace('/signup')}
+      </>)
+  }
+
+  render(){
+  return (
+    <>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+          </Nav>
+          <Nav>
+            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
+          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+              <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
+              <NavDropdown.Divider />
+            </NavDropdown>
+        </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      {this.what_to_do()}
+    </>
+    );
+  }  
+}
+
+
+class StudentHome extends React.Component {
+  constructor(props){
+    super(props)
+    this.changeEditable = this.changeEditable.bind(this)
+    this.componentDidMount = this.componentDidMount.bind(this)
+    this.state = this.props.data
+  }
+  async componentDidMount(){
+    console.log("Working")
+    console.log(this.props)
+    await fetch(`/student/${this.props.data.gId}`).then(res => res.json().then( value=> {
+      console.log(value)
+      this.setState({
+        profile: value.profile,
+        details: value.details,
+        proctor: value.proc,
+        grades: value.marks,
+        isSignedIn: true
+      })
+      this.cleanGrades(value.marks, value.profile.semester)
+    }))
   }
 
   computeCGPA(credits, sem){
@@ -390,7 +450,7 @@ class HomePage extends React.Component{
   }
 
 
-  async cleanGrades(grades, sem){
+  cleanGrades(grades, sem){
     var i = 1
     var group = []
     var t_c = {}
@@ -414,65 +474,9 @@ class HomePage extends React.Component{
     }
     this.setState({gradesReal: group})
     this.computeCGPA(t_c, sem)
-    var requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        grades: this.state.grades
-
-    })}
-    await fetch(`http://localhost:8000/student/grades`, requestOptions).then(() => console.log("Done"))
   }
 
-  what_to_do(Component){
-    if (this.state.status && this.state.role === "Student"){
-      if(this.state.message === "User Found" && this.state.isSignedIn === false){
-      fetch(`student/${this.state.gId}`).then(res => res.json().then( value=> {
-        this.setState({
-          profile: value.profile,
-          details: value.details,
-          proctor: value.proc,
-          grades: value.marks,
-          isSignedIn: true
-        })
-        this.cleanGrades(value.marks, value.profile.semester)
-      }))
-      
-    }
-      return (
-        Component
-      )
-    }
-    if(this.state.status && this.state.role === "Proctor")
-    {
-      return ( Component
-        // <>
-        //   <Router>
-        //     <Navbar />
-        //     <Switch>
-        //       <Route path='/' exact component={Home} />
-        //       <Route path='/1st_sem' exact component={fir_sem} />
-        //       <Route path='/2nd_sem' component={sec_sem} />
-        //       <Route path='/3rd_sem' component={thir_sem} />
-        //       <Route path='/4th_sem' component={fort_sem} />
-        //       <Route path='/5th_sem' component={fiv_sem} />
-        //       <Route path='/6th_sem' component={six_sem} />
-        //       <Route path='/7th_sem' component={sev_sem} />
-        //       <Route path='/8th_sem' component={eig_sem} />
-        //     </Switch>
-        //   </Router>
-        // </>
-      );
-    
-    }
-      else
-      return (<>
-        <h1> </h1>
-        {window.location.replace('/signup')}
-      </>)
-  }
-
-  changeEditable(){
+  async changeEditable(){
     console.log("Boom")
     if(this.state.editable === 0){
       var e_marks = document.getElementsByClassName("editable")
@@ -497,28 +501,22 @@ class HomePage extends React.Component{
       }
       this.setState({grades: cgrades})
       this.cleanGrades(cgrades, this.state.profile.semester)
+      var requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          grades: this.state.grades
+  
+      })}
+      await fetch(`http://localhost:8000/student/grades`, requestOptions).then(() => console.log("Done"))
     }
   }
 
+
+
+
   render(){
-  return (
-    <>
-      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-          </Nav>
-          <Nav>
-            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
-              <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
-              <NavDropdown.Divider />
-            </NavDropdown>
-        </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      {this.what_to_do(<>
+    return(<>
       <div className="container emp-profile">
         <form method="post">
           <div className="row">
@@ -624,11 +622,8 @@ class HomePage extends React.Component{
             </div>
           </form>           
         </div>
-      </>)}
-    </>
-    );
-  }  
+      </>)
+  }
 }
-
 
 export default App;

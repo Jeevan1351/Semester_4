@@ -48,7 +48,7 @@ Student.get_proc = (gid, result) => {
 
 
 Student.get_grades = (gid, result) => {
-    const get_grades_query = sql.query(`select c.course_id, c.course_name, c.credits, c.course_semester, c.course_department, m.internal, m.see, s.usn, m.status from student s, marks m, courses c where s.g_id = "${gid}" and s.usn = m.m_usn and m.m_course_id = c.course_id;`, (err, res) => {
+    const get_grades_query = sql.query(`select c.course_id, c.course_name, c.credits, c.course_semester, c.course_department, m.internal, m.see, s.usn from student s, marks m, courses c where s.g_id = "${gid}" and s.usn = m.m_usn and m.m_course_id = c.course_id;`, (err, res) => {
         if(err){
             console.log("Error")
             result(err, null)
@@ -118,7 +118,7 @@ const b = (grades, next) => {
         }
         if(res[0].count == 1)
         {
-            var up_marks = sql.query(`update marks set internal = ${grades.internal}, see = ${grades.see}, status = "${grades.status}" where m_course_id = "${grades.course_id}";`, (err, res) => {
+            var up_marks = sql.query(`update marks set internal = ${grades.internal}, see = ${grades.see} where m_course_id = "${grades.course_id}";`, (err, res) => {
                 if(err) {
                     console.log("Error", err)
                     // console.log("MAggi")
