@@ -88,7 +88,7 @@ class App extends React.Component {
                 <Switch>
                     <Route exact path="/"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path="/home"  render={() => this.ifUserSignedIn(HomePage)}/>
-                    <Route path='/signup' render={() => this.ifUserSignedIn(<>mango</>)}/>
+                    <Route path='/signup' render={() => this.ifUserSignedIn(SignUp)}/>
                 </Switch>
             </BrowserRouter>
       </div>
@@ -97,189 +97,619 @@ class App extends React.Component {
 }
 
 
-
-// class SignUp extends React.Component{
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       authInstance:0,
-//       name:0,
-//       email:0,
-//       usn: 0,
-//       department: null,
-//       mobile_no: null,
-//       proctor_id: null,
-//       semester: 0,
-//       section: 0,
-//       batch: 0,
-//       role:"Student",
-//       img:0,
-//       gId:0,
-//       proctor:null,
-//       dob:null,
-//       respones:null,
-//     }
-//   this.post_it=this.post_it.bind(this)
-
-//   }
-//   componentDidMount(){
-//     const authInstance = window.gapi.auth2.getAuthInstance()
-//     const user = authInstance.currentUser.get()
-//     const profile = user.getBasicProfile();
-//     const email = profile.getEmail();
-//     const name = profile.getName();
-//     const img = profile.getImageUrl();
-//     const googleId = profile.getId();
-//     this.setState({
-//       authInstance: authInstance,
-//       name:name,
-//       email:email,
-//       img:img,
-//       gId:googleId,
-//     })
-//   }
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+  usn: "",
+  DOB: "",
+  phoneno: "",
+  bloodgroup: "",
+  Fname: "",
+  foccupation: "",
+  Address: "",
+  fphoneno: "",
+  femail: "",
+  Mname: "",
+  Moccupation: "",
+  Mphoneno: "",
+  Memail: "",
+  Gname: "",
+  Goccupation: "",
+  Gphoneno: "",
+  Gemail: "",
+  LAddress: "",
+  Accomodation: "",
+  nameError: "",
+  emailError: "",
+  passwordError: "",
+  usnError: "",
+  DOBError: "",
+  phonenoError: "",
+  fnameError: "",
+  femailError: "",
+  MnameError: "",
+  MemailError: "",
+  GnameError: "",
+  GemailError: ""
+};
 
 
-//   post_it(){
-//     const requestOptions = {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ 
-//         gid: this.state.gId,
-//         role:this.state.role,
-//         name:this.state.name,
-//         dob:this.state.dob,
-//         proctor:this.state.proctor,
-//         email:this.state.email,
-//         semester: this.state.semester,
-//         mobile_no: this.state.mobile_no,
-//         proctor_id: null,
-//         department: this.state.department,
-//         batch: this.state.batch,
-//         usn: this.state.usn,
-//         section:'B',
+class SignUp extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = initialState
+  }
+  // constructor(props){
+  //   super(props)
+  //   this.state = {
+  //     authInstance:0,
+  //     name:0,
+  //     email:0,
+  //     usn: 0,
+  //     department: null,
+  //     mobile_no: null,
+  //     proctor_id: null,
+  //     semester: 0,
+  //     section: 0,
+  //     batch: 0,
+  //     role:"Student",
+  //     img:0,
+  //     gId:0,
+  //     proctor:null,
+  //     dob:null,
+  //     respones:null,
+  //   }
+  // this.post_it=this.post_it.bind(this)
 
-//       })
-//   }
+  // }
+  // componentDidMount(){
+  //   const authInstance = window.gapi.auth2.getAuthInstance()
+  //   const user = authInstance.currentUser.get()
+  //   const profile = user.getBasicProfile();
+  //   const email = profile.getEmail();
+  //   const name = profile.getName();
+  //   const img = profile.getImageUrl();
+  //   const googleId = profile.getId();
+  //   this.setState({
+  //     authInstance: authInstance,
+  //     name:name,
+  //     email:email,
+  //     img:img,
+  //     gId:googleId,
+  //   })
+  // }
 
-//   fetch('http://localhost:8000/user', requestOptions).then(window.location.replace('/home'))
-//   }
 
+  // post_it(){
+  //   const requestOptions = {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ 
+  //       gid: this.state.gId,
+  //       role:this.state.role,
+  //       name:this.state.name,
+  //       dob:this.state.dob,
+  //       proctor:this.state.proctor,
+  //       email:this.state.email,
+  //       semester: this.state.semester,
+  //       mobile_no: this.state.mobile_no,
+  //       proctor_id: null,
+  //       department: this.state.department,
+  //       batch: this.state.batch,
+  //       usn: this.state.usn,
+  //       section:'B',
 
-//   render(){
-//     return(<> 
-//      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-//         <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
-//         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-//         <Navbar.Collapse id="responsive-navbar-nav">
-//           <Nav className="mr-auto"></Nav>
-//           <Nav>
-//             <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-//             <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
-//                 <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
-//                 <NavDropdown.Divider />
-//             </NavDropdown>
-//           </Nav>
-//         </Navbar.Collapse>
-//       </Navbar>
-//     <div className="container emp-profile">
-//       <div>
-//         <label >Google ID:</label>
-//         <input type="text" id="gid" name="gid" value={this.state.gId}readOnly/><br/><br/>
-//         <label >Role:</label>
-//         <input type="text" id="role" name="role" value="Student" readOnly/><br/><br/>
-//         <label >Name:</label>
-//         <input type="text"  name="name" value={this.state.name} readOnly/><br/><br/>
-//         <label >Email:</label>
-//         <input type="text"  name="email" value= {this.state.email} readOnly/><br/><br/>
-//         <label >DOB:</label>
-//         <input type="text"  name="dob" onChange={(e) => {this.setState({dob:e.target.value})}}/><br/><br/>
-//         <label >Proctor:</label>
-//         <input type="text"  name="proctor" onChange={(e)=> {this.setState({proctor:e.target.value})}}/><br/><br/>
-//         <label >USN:</label>
-//         <input type="text"  name="usn" onChange={(e)=> {this.setState({usn:e.target.value})}}/><br/><br/>
-//         <label >department:</label>
-//         <input type="text"  name="department" onChange={(e)=> {this.setState({department:e.target.value})}}/><br/><br/>
-//         <label >batch:</label>
-//         <input type="text"  name="batch" onChange={(e)=> {this.setState({batch:e.target.value})}}/><br/><br/>
-//         <label >Mobile Number:</label>
-//         <input type="text"  name="mobile_no" onChange={(e)=> {this.setState({mobile_no:e.target.value})}}/><br/><br/>
-//         <label >Semster:</label>
-//         <input type="text"  name="semester" onChange={(e)=> {this.setState({semester:parseInt(e.target.value)})}}/><br/><br/>
-//         <input type="submit" onClick= {this.post_it} value="Submit"/>
-//       </div>
-//     </div>
-//     </>
-//      /* <>
-//        <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-//          <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
-//          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-//          <Navbar.Collapse id="responsive-navbar-nav">
-//            <Nav className="mr-auto">
-//            </Nav>
-//            <Nav>
-//             <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-//            <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
-//                <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
-//                <NavDropdown.Divider />
-//              </NavDropdown>
-//          </Nav>
-//          </Navbar.Collapse>
-//        </Navbar>
-//        <div className="container emp-profile">
-//          <Form>
-//            <Form.Group  md="8">
-//              <Form.Label>Email address</Form.Label>
-//              <Form.Control type="email" value={this.state.email} readOnly />
-//           </Form.Group>
-//            <Form.Group>
-//              <Form.Label>Name</Form.Label>
-//              <Form.Control type="email" value={this.state.name} readOnly />
-//            </Form.Group>
-//            <Form.Group controlId="dob">
-//              <Form.Label>Date of Birth</Form.Label>
-//              <Form.Control type="date" name="dob" placeholder="Date of Birth" />
-//            </Form.Group>
-//            <Form.Group>
-//              <Form.Label>Department</Form.Label>
-//              <Form.Control as="select">
-//               <option>CSE</option>
-//                <option>ISE</option>
-//                <option>MECH</option>
-//                <option>EC</option>
-//                <option>EEE</option>
-//                <option>Civil</option>
-//                <option>Aerospace</option>
-//                <option>Chemical</option>
-//              </Form.Control>
-//            </Form.Group>
-//            <Form.Group controlId="exampleForm.ControlSelect1">
-//              <Form.Label>Blood Group</Form.Label>
-//              <Form.Control as="select">
-//                <option>A+ve</option>
-//                <option>B+ve</option>
-//                <option>O+ve</option>
-//                <option>AB+ve</option>
-//                <option>A-ve</option>
-//                <option>B-ve</option>
-//                <option>O-ve</option>
-//                <option>AB-ve</option>
-//              </Form.Control>
-//            </Form.Group>
-//            <Form.Group>
-//              <ReactPhone/>
-//            </Form.Group>
-//            <Button variant="primary" type="submit">
-//              Submit
-//            </Button>
+  //     })
+  // }
 
-//          </Form>
-//       </div>
+  // fetch('http://localhost:8000/user', requestOptions).then(window.location.replace('/home'))
+  // }
+  
+    handleChange = (event) => {
+      const isCheckbox = event.target.type === "checkbox";
+      this.setState({
+        [event.target.name]: isCheckbox
+          ? event.target.checked
+          : event.target.value
+      });
+    };
+  
+    validate = () => {
+      console.log("123")
+      let nameError = "";
+      let emailError = "";
+      let passwordError = "";
+      let usnError = "";
+      let DOBError = "";
+      let phonenoError = "";
+      let fnameError = "";
+      let femailError = "";
+      let MnameError = "";
+      let MemailError = "";
+      let GnameError = "";
+      let GemailError = "";
+  
+      if (!this.state.name) {
+        nameError = "name cannot be blank";
+      }
+  
+      if (!this.state.email.includes("@bmsce.ac.in")) {
+        emailError = "invalid email";
+      }
+  
+      if (!this.state.password) {
+        passwordError = "password required";
+      }
+  
+      if (!this.state.usn.includes("1BM")) {
+        usnError = "invalid usn";
+      }
+  
+      if (!this.state.DOB.includes("//")) {
+        DOBError = "invalid date";
+      }
+  
+      if (!this.state.phoneno.includes("0123456789")) {
+        phonenoError = "invalid number";
+      }
+  
+      if (!this.state.fname) {
+        fnameError = "name cannot be blank";
+      }
+  
+      if (!this.state.femail.includes("@")) {
+        femailError = "invalid email";
+      }
+  
+      if (!this.state.Mname) {
+        MnameError = "name cannot be blank";
+      }
+  
+      if (!this.state.Memail.includes("@")) {
+        MemailError = "invalid email";
+      }
+  
+      if (!this.state.Gname) {
+        GnameError = "name cannot be blank";
+      }
+  
+      if (!this.state.Gemail.includes("@")) {
+        GemailError = "invalid email";
+      }
+  
+      if (
+        emailError ||
+        nameError ||
+        passwordError ||
+        usnError ||
+        DOBError ||
+        phonenoError ||
+        fnameError ||
+        femailError ||
+        MnameError ||
+        MemailError ||
+        GnameError ||
+        GemailError
+      ) {
+        this.setState({
+          emailError,
+          nameError,
+          passwordError,
+          usnError,
+          DOBError,
+          phonenoError,
+          fnameError,
+          femailError,
+          MnameError,
+          MemailError,
+          GemailError,
+          GnameError
+        });
+        return false;
+      }
+  
+      return true;
+    };
+  
+    handleSubmit = (event) => {
+      console.log(this.state)
+      event.preventDefault();
+      const isValid = this.validate();
+      if (isValid) {
+        console.log(this.state);
+        // clear form
+        this.setState(initialState);
+      }
+    };
+  render() {
+    return (
+      <div id="login-box">
+        <h1 className="heading" align="center" style={{ paddingTop: "1.2em" }}>
+          Registration-form
+        </h1>
+        <br />
+        
+        <div id="general" className="tabcontent">
+          <div id="right-box">
+            <form onSubmit={this.handleSubmit}>
+              <div align="center" style={{ marginLeft: "10%" }}>
+                <br />
+                <div>
+                  <label htmlFor="name">Name:</label> <br />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="name"
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.nameError}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="Email">Email:</label> <br />
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="email"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.emailError}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="usn">USN:</label> <br />
+                  <input
+                    type="text"
+                    name="usn"
+                    placeholder="usn"
+                    value={this.state.usn}
+                    onChange={this.handleChange}
+                    // style={{ width: "53.5rem" }}
+                  />
+                </div>
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.usnError}
+                </div>
+                <div>
+                  <label htmlFor="DOB">DATE of BIRTH:</label> <br />
+                  <input
+                    type="text"
+                    name="DOB"
+                    placeholder="DD/MM/YYYY"
+                    value={this.state.DOB}
+                    onChange={this.handleChange}
+                    // style={{ width: "53.5rem" }}
+                  />
+                </div>
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.DOBError}
+                </div>
+                <div>
+                  <label htmlFor="phoneno">Phone Number:</label> <br />
+                  <input
+                    type="text"
+                    name="phoneno"
+                    placeholder="ph.no"
+                    value={this.state.phoneno}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.phonenoError}
+                </div>
+                <div>
+                  <label htmlFor="bloodgroup">Blood Group:</label> <br />
+                  <input
+                    type="text"
+                    name="bloodgroup"
+                    placeholder="Blood Group"
+                    value={this.state.bloodgroup}
+                    onChange={this.handleChange}
+                  />
+                </div>              
+            </div>
+           <br></br>
+                
+                <div>
+                  <br />
+                  <label htmlFor="fname">Father Name:</label> <br />
+                  <input
+                    type="text"
+                    name="fname"
+                    placeholder="Father name"
+                    value={this.state.fname}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.fnameError}
+                  </div>
+                </div>
+                <div>
+                  <br />
+                  <label htmlFor="Mname">Mother Name:</label> <br />
+                  <input
+                    type="text"
+                    name="Mname"
+                    placeholder="Mother name"
+                    value={this.state.Mname}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.MnameError}
+                  </div>
+                </div>
+                <div>
+                  <br />
+                  <label htmlFor="foccupation">Father's Occupation:</label> <br />
+                  <input
+                    type="text"
+                    name="foccupation"
+                    placeholder="Father's occupation"
+                    value={this.state.foccupation}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div>
+                  <br />
+                  <label htmlFor="Moccupation">Mother's Occupation:</label> <br />
+                  <input
+                    type="text"
+                    name="Moccupation"
+                    placeholder="Mother's occupation"
+                    value={this.state.Moccupation}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="Address">Permanent Address:</label> <br />
+                  <input
+                    type="text"
+                    name="Address"
+                    placeholder="Address"
+                    value={this.state.Address}
+                    onChange={this.handleChange}
+                    style={{ height: "100px", textAlign: "top" }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="femail">Father's Email:</label> <br />
+                  <input
+                    type="text"
+                    name="femail"
+                    placeholder="Father's Email"
+                    value={this.state.femail}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.femailError}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="Memail">Mother's Email:</label> <br />
+                  <input
+                    type="text"
+                    name="Memail"
+                    placeholder="Mother's Email"
+                    value={this.state.Memail}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.MemailError}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="phoneno">Father's PhoneNumber:</label> <br />
+                  <input
+                    type="text"
+                    name="fphoneno"
+                    placeholder="ph.no"
+                    value={this.state.fphoneno}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phoneno">Mother's PhoneNumber:</label> <br />
+                  <input
+                    type="text"
+                    name="Mphoneno"
+                    placeholder="ph.no"
+                    value={this.state.Mphoneno}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div>
+                  <br />
+                  <label htmlFor="Gname">Local Guardian Name:</label> <br />
+                  <input
+                    type="text"
+                    name="Gname"
+                    placeholder="Guardian name"
+                    value={this.state.Gname}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.GnameError}
+                  </div>
+                </div>
+                <div>
+                  <br />
+                  <label htmlFor="Goccupation">Guardian's Occupation:</label> <br />
+                  <input
+                    type="text"
+                    name="Goccupation"
+                    placeholder="Guardian's occupation"
+                    value={this.state.Goccupation}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phoneno">Guardian's PhoneNumber:</label> <br />
+                  <input
+                    type="text"
+                    name="Gphoneno"
+                    placeholder="ph.no"
+                    value={this.state.Gphoneno}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="Gemail">Guardian's Email:</label> <br />
+                  <input
+                    type="text"
+                    name="Gemail"
+                    placeholder="Guardian's Email"
+                    value={this.state.gemail}
+                    onChange={this.handleChange}
+                  />
+                  <div style={{ fontSize: 12, color: "red" }}>
+                    {this.state.GemailError}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="LAddress">Local Address:</label> <br />
+                  <input
+                    type="text"
+                    name="LAddress"
+                    placeholder="Address"
+                    value={this.state.LAddress}
+                    onChange={this.handleChange}
+                    style={{ height: "100px", textAlign: "top" }}
+                  />
+                </div>
+                <button className="final" type="submit">
+                Submit
+              </button> 
+                </form>
+                <div>
+              </div>
+              
+              
+           </div> 
+          </div>
+        
+      </div>
+    );
+  }
 
-//        </> 
-//     </>)*/)
-//   }
-// }
+  // render(){
+  //   return(<> 
+  //    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+  //       <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
+  //       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+  //       <Navbar.Collapse id="responsive-navbar-nav">
+  //         <Nav className="mr-auto"></Nav>
+  //         <Nav>
+  //           <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
+  //           <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+  //               <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
+  //               <NavDropdown.Divider />
+  //           </NavDropdown>
+  //         </Nav>
+  //       </Navbar.Collapse>
+  //     </Navbar>
+  //   <div className="container emp-profile">
+  //     <div>
+  //       <label >Google ID:</label>
+  //       <input type="text" id="gid" name="gid" value={this.state.gId}readOnly/><br/><br/>
+  //       <label >Role:</label>
+  //       <input type="text" id="role" name="role" value="Student" readOnly/><br/><br/>
+  //       <label >Name:</label>
+  //       <input type="text"  name="name" value={this.state.name} readOnly/><br/><br/>
+  //       <label >Email:</label>
+  //       <input type="text"  name="email" value= {this.state.email} readOnly/><br/><br/>
+  //       <label >DOB:</label>
+  //       <input type="text"  name="dob" onChange={(e) => {this.setState({dob:e.target.value})}}/><br/><br/>
+  //       <label >Proctor:</label>
+  //       <input type="text"  name="proctor" onChange={(e)=> {this.setState({proctor:e.target.value})}}/><br/><br/>
+  //       <label >USN:</label>
+  //       <input type="text"  name="usn" onChange={(e)=> {this.setState({usn:e.target.value})}}/><br/><br/>
+  //       <label >department:</label>
+  //       <input type="text"  name="department" onChange={(e)=> {this.setState({department:e.target.value})}}/><br/><br/>
+  //       <label >batch:</label>
+  //       <input type="text"  name="batch" onChange={(e)=> {this.setState({batch:e.target.value})}}/><br/><br/>
+  //       <label >Mobile Number:</label>
+  //       <input type="text"  name="mobile_no" onChange={(e)=> {this.setState({mobile_no:e.target.value})}}/><br/><br/>
+  //       <label >Semster:</label>
+  //       <input type="text"  name="semester" onChange={(e)=> {this.setState({semester:parseInt(e.target.value)})}}/><br/><br/>
+  //       <input type="submit" onClick= {this.post_it} value="Submit"/>
+  //     </div>
+  //   </div>
+  //   </>
+  //    /* <>
+  //      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+  //        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
+  //        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+  //        <Navbar.Collapse id="responsive-navbar-nav">
+  //          <Nav className="mr-auto">
+  //          </Nav>
+  //          <Nav>
+  //           <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
+  //          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+  //              <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
+  //              <NavDropdown.Divider />
+  //            </NavDropdown>
+  //        </Nav>
+  //        </Navbar.Collapse>
+  //      </Navbar>
+  //      <div className="container emp-profile">
+  //        <Form>
+  //          <Form.Group  md="8">
+  //            <Form.Label>Email address</Form.Label>
+  //            <Form.Control type="email" value={this.state.email} readOnly />
+  //         </Form.Group>
+  //          <Form.Group>
+  //            <Form.Label>Name</Form.Label>
+  //            <Form.Control type="email" value={this.state.name} readOnly />
+  //          </Form.Group>
+  //          <Form.Group controlId="dob">
+  //            <Form.Label>Date of Birth</Form.Label>
+  //            <Form.Control type="date" name="dob" placeholder="Date of Birth" />
+  //          </Form.Group>
+  //          <Form.Group>
+  //            <Form.Label>Department</Form.Label>
+  //            <Form.Control as="select">
+  //             <option>CSE</option>
+  //              <option>ISE</option>
+  //              <option>MECH</option>
+  //              <option>EC</option>
+  //              <option>EEE</option>
+  //              <option>Civil</option>
+  //              <option>Aerospace</option>
+  //              <option>Chemical</option>
+  //            </Form.Control>
+  //          </Form.Group>
+  //          <Form.Group controlId="exampleForm.ControlSelect1">
+  //            <Form.Label>Blood Group</Form.Label>
+  //            <Form.Control as="select">
+  //              <option>A+ve</option>
+  //              <option>B+ve</option>
+  //              <option>O+ve</option>
+  //              <option>AB+ve</option>
+  //              <option>A-ve</option>
+  //              <option>B-ve</option>
+  //              <option>O-ve</option>
+  //              <option>AB-ve</option>
+  //            </Form.Control>
+  //          </Form.Group>
+  //          <Form.Group>
+  //            <ReactPhone/>
+  //          </Form.Group>
+  //          <Button variant="primary" type="submit">
+  //            Submit
+  //          </Button>
+
+  //        </Form>
+  //     </div>
+
+  //      </> 
+  //   </>)*/)
+  // }
+}
 
 
 
@@ -378,6 +808,7 @@ class ProctorHome extends React.Component{
         department:"",
         batch: ""
       },
+      selected : [],
       semesters: [1, 2, 3],
       studentsSorted: {1: [], 2:[], 3:[]}
     }
@@ -416,7 +847,14 @@ class ProctorHome extends React.Component{
   }
 
 
-
+  getStudent(gid){
+    fetch(`http://localhost:8000/student/${gid}`).then(res => res.json().then(value=> {
+      console.log(value)
+      var arr = this.state.selected
+      arr.push(value)
+      this.setState({selected: arr})
+    }))
+  }
 
 
   render(){
@@ -442,21 +880,25 @@ class ProctorHome extends React.Component{
         <div className="profile-tab" >
           <br/><br/>
             <div id="home" aria-labelledby="home-tab">
-            <Tabs defaultActiveKey="profile" id="noanim-tab-example">
+            <Tabs defaultActiveKey={`Semester ${this.state.semesters[0]}`} id="noanim-tab-example">
               {
                 this.state.semesters.map((sem, id) => {
                   return(
                   <Tab key={id} title={`Semester ${sem}`} eventKey={sem}>
-                    {this.state.studentsSorted[sem].map((student, idx) => {
-                     return( <div key={idx} className="Students">
-                      <p>Student Name : {student.name}</p>
-                      <p>Student USN: {student.usn}</p>
-                      <p>Student Semester: {student.semester}</p>
-                      <p>Student Phone Number: {student.mobile_no}</p>
-                      <p>Student DOB: {student.dob}</p>
-                      <Button variant="outline-secondary">Get Student</Button>
-                    </div>)
-                    })}
+                    {
+                      this.state.studentsSorted[sem].map((student, idx) => {
+                        return(
+                        <div key={idx} className="Students">
+                          <p>Student Name : {student.name}</p>
+                          <p>Student USN: {student.usn}</p>
+                          <p>Student Semester: {student.semester}</p>
+                          <p>Student Phone Number: {student.mobile_no}</p>
+                          <p>Student DOB: {student.dob}</p>
+                          <Button variant="outline-secondary" onClick={() => this.getStudent(student.g_id)}>Get Student</Button>
+                        </div>
+                        )
+                      })
+                    }
                     
                   </Tab>)
                 })
