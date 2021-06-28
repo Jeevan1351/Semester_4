@@ -8,7 +8,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import "./App.css";
 
-import { Navbar, Nav, NavDropdown, Image, Table
+import { Navbar, Nav, NavDropdown, Image, Table, Tab, Tabs, Button
 //   Form, Button
  } from 'react-bootstrap';
 
@@ -371,28 +371,53 @@ class ProctorHome extends React.Component{
     super(props)
     this.state = {
       authInstance:this.props.data.authInstance,
-      name:false,
-      email:0,
-      img:0,
-      gId:10000,
-      sgpa:[0],
-      status: true,
-      role: "Student",
+      students: [1, 2, 3],
+      role: "Proctor",
       data: {department: "CSE", batch:"2024"},
-      isSignedIn: false,
       profile:{
         department:"",
         batch: ""
-      }
+      },
+      semesters: [1, 2, 3],
+      studentsSorted: {1: [], 2:[], 3:[]}
     }
   }
 
   componentDidMount(){
     fetch(`http://localhost:8000/proctor/${this.props.data.gId}`).then(res => res.json().then(value => {
       console.log(value)
-      this.setState({profile: value})
+      this.setState(value)
+      this.cleanStudents()
     }))
   }
+
+
+  cleanStudents(){
+    var students = this.state.students
+    var semesters = []
+    var studentsSorted = {}
+    for(let i = 0; i<students.length; i++)
+    {
+      semesters.push(students[i].semester)
+      studentsSorted[students[i].semester] = [] 
+    }
+    semesters = [...new Set(semesters)]
+    for(let x = 0; x < semesters.length; x++)
+    {
+      for(let y = 0; y<students.length; y++)
+      {
+        if(students[y].semester === semesters[x])
+        {
+          studentsSorted[semesters[x]].push(students[y])
+        }
+      }
+    }
+    this.setState({studentsSorted, semesters})
+  }
+
+
+
+
 
   render(){
     return(<>
@@ -415,8 +440,35 @@ class ProctorHome extends React.Component{
           </div>
       </div>
         <div className="profile-tab" >
+          <br/><br/>
             <div id="home" aria-labelledby="home-tab">
-              <br></br><br></br>
+            <Tabs defaultActiveKey="profile" id="noanim-tab-example">
+              {
+                this.state.semesters.map((sem, id) => {
+                  return(
+                  <Tab key={id} title={`Semester ${sem}`} eventKey={sem}>
+                    {this.state.studentsSorted[sem].map((student, idx) => {
+                     return( <div key={idx} className="Students">
+                      <p>Student Name : {student.name}</p>
+                      <p>Student USN: {student.usn}</p>
+                      <p>Student Semester: {student.semester}</p>
+                      <p>Student Phone Number: {student.mobile_no}</p>
+                      <p>Student DOB: {student.dob}</p>
+                      <Button variant="outline-secondary">Get Student</Button>
+                    </div>)
+                    })}
+                    
+                  </Tab>)
+                })
+              }
+              
+              {/* <Tab eventKey="home" title="Home">
+                <p>Home tab</p>
+              </Tab>
+              <Tab eventKey="profile" title="Profile">
+                <p>Profile tab</p>
+              </Tab> */}
+            </Tabs>
             </div>
           </div>           
         </div>
@@ -602,7 +654,7 @@ class StudentHome extends React.Component {
               </div>
           </div>
           <div className="col-md-2">
-              <input type="submit"  onClick = {this.state.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
+              <input type="submit"  onClick = {this.props.data.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
           </div>
       </div>
         <div className="profile-tab" >
