@@ -1134,6 +1134,14 @@ class StudentHome extends React.Component {
                       <p>{this.state.profile.semester}</p>
                   </div>
               </div>
+              <div className="row">
+                  <div className="col-md-2">
+                      <label>CGPA : </label>
+                  </div>
+                  <div className="col-md-2">
+                      <p>{(this.state.cgpa)?this.state.cgpa.toFixed(2):9}</p>
+                  </div>
+              </div>
               <div>
                 <div>
                   <input id="edit" className="profile-edit-btn" type="button" onClick={this.changeEditable} value={(this.state.editable)?"Update":"Edit"}/>

@@ -121,7 +121,6 @@ const b = (grades, next) => {
             var up_marks = sql.query(`update marks set internal = ${grades.internal}, see = ${grades.see} where m_course_id = "${grades.course_id}";`, (err, res) => {
                 if(err) {
                     console.log("Error", err)
-                    // console.log("MAggi")
                     next(err, null)
                     return 
                 }

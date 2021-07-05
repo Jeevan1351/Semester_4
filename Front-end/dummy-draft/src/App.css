@@ -125,34 +125,12 @@ body{
   
   label{
 	  float:left;
-    color: white;
+    background-color: white;
+    color: black;
   }
 
   h4 {
     color: white
-  }
-  input:ho button:hover {
-	opacity: 0.8;
-  }
-  input[type="text"] {
-	width: 80%;
-	padding: 15px 22px;
-	margin: 10px 8px;
-	box-sizing: border-box;
-	border-radius: 8px;
-  }
-  input[type="password"] {
-	width: 60%;
-	padding: 15px 22px;
-	margin: 10px 5px;
-	box-sizing: border-box;
-	border-radius: 8px;
-  }
-  
-  input {
-	border: none;
-	border-bottom: solid 0.25px;
-	border-bottom-color: #aaa9a9;
   }
   
   /* Style the tab */

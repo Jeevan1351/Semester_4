@@ -37,6 +37,7 @@ create table student(g_id varchar(30),role varchar(30), name varchar(50), usn va
 					department varchar(20), email varchar(50), mobile_no varchar(20), dob varchar(20),
                     proctor_id varchar(50), semester int, section varchar(3), batch varchar(10));
 alter table student add constraint PK_student_g_id primary key(g_id);
+alter table student add column img_url varchar(1000) default null;
 alter table student drop column role;
 alter table student drop primary key;
 alter table student add constraint PK_student primary key(usn);
