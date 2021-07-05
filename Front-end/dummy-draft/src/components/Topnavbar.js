@@ -1,26 +1,18 @@
-import React,{useState, useRef, useEffect} from 'react';
+import React,{useState,
+  //  useRef
+  } from 'react';
 // import './app.css';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import logo from '../Images/bmscelogo.png';
-import { useDetectOutsideClick } from "./useDetectOutsideClick";
+// import { useDetectOutsideClick } from "./useDetectOutsideClick";
 
 
-function TopNavbar(){
+function TopNavbar(props){
 
   const [showlinks, setshowlinks]  = useState(false);
 
-  const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-  const onClick = () => setIsActive(!isActive);
-  
-  // const SignOut= (props) =>{
-  //   const [nameState , setNameState] = useState(props)
-  //   useEffect(()=> {
-  //     setNameState(props)
-  //   }, [props])
-  //   props.data.authInstance.signOut();
-  // } 
-
+  // const dropdownRef = useRef(null);
+  // const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
 
   return (
   <div className="Navbar">
@@ -40,7 +32,7 @@ function TopNavbar(){
      </button>
      
     </div>
-    <button>Sign Out!!</button>
+    <button onClick={props.props.data.data.authInstance.signOut}>Sign Out!!</button>
   </div>
   
   ); 

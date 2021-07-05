@@ -15,7 +15,7 @@ function getData(id){
     console.log(sem);
 }
 
-function Navbar() {
+function Navbar(props) {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
@@ -29,7 +29,7 @@ function Navbar() {
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-          <TopNavbar/>
+          <TopNavbar props={props}/>
         
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
@@ -91,7 +91,7 @@ function Table()
         setData(resp)})
    },[])
   return(
-     <div className="table">
+     <div className="table-proc">
        <MaterialTable 
         title="" 
         data={data}

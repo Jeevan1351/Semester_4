@@ -12,7 +12,8 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import "./App.css";
 
-import { Navbar, Nav, NavDropdown, Image, Table, Tab, Tabs, Button
+import { Navbar, Nav, NavDropdown, Image, Table,
+  //  Tab, Tabs, Button
 //   Form, Button
  } from 'react-bootstrap';
 
