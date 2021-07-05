@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+/* topnavbar */
+.Navbar{
+  background-color: #021E39;
+  width:100%;
+  height: 0%;
+  font-family: Arial, Helvetica, sans-serif;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.Navbar .leftSide{
+  flex: 80%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.Navbar .leftSide .links {
+  max-height: 80px;
+
+}
+.Navbar .leftSide button {
+  display: none;
+  margin-left:20px;
+}
+.Navbar .leftSide #hidden {
+  display: flex;
+  
+}
+
+.Navbar .leftSide .links a {
+ text-decoration: none;
+ color:white;
+ font-size: 25px;
+ margin-left:15px;
+ align-items: center;
+ margin-top: 10px;
+}
+.Navbar .rightSide{
+  flex: 20%;
+  
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu-container {
+  
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-trigger {
+  background: #ffffff;
+  border-radius: 90px;
+  cursor: pointer;
+  display: flex;
+  width: 12.25rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: none;
+  vertical-align: middle;
+  transition: box-shadow 0.4s ease;
+  margin-left: auto; /* Strictly for positioning */
+}
+
+.menu-trigger:hover {
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.menu-trigger span {
+  font-weight: 700;
+  vertical-align: middle;
+  font-size: 16px;
+  margin: 0 10px;
+  margin-left: -5px;
+}
+
+.menu-trigger img {
+  border-radius: 90px;
+}
+
+.menu {
+  background: #ffffff;
+  border-radius: 8px;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 300px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+}
+
+.menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  border-bottom: 1px solid #dddddd;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #333333;
+  padding: 15px 20px;
+  display: block;
+}
+
+
+@media only screen and (max-width: 1400px){
+  .Navbar .leftSide .links a{
+      font-size:20px;
+  }
+}
+
+@media only screen and (max-width: 1100px){
+  .Navbar .leftSide .links a{
+      font-size:15px;
+  }
+}
+
+@media only screen and (max-width: 900px){
+  .Navbar .leftSide .links a{
+      font-size:13px;
+  }
+}
+@media only screen and (max-width: 750px){
+  .Navbar .leftSide button {
+      display: flex;
+   }
+   .Navbar .leftSide .links {
+      display: none;
+  }
+  .Navbar .leftSide #hidden {
+      position: absolute;
+      left:0px;
+      top: 80px;
+      height: 230px;
+      width:100%;
+      max-height: 220px;
+      background-color: #021E39;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   .Navbar .leftSide #hidden a {
+       margin:10px;
+       font-size: 25px;
+   }
+  
+
+}
+
+/* sidenavbar */
+
+.navbar {
+  background-color: #021E39;
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.menu-bars {
+  margin-left: 2rem;
+  font-size: 2rem;
+  background: none;
+}
+
+.nav-menu {
+  background-color: #021E39;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+}
+
+.nav-menu.active {
+  left: 0;
+  transition: 350ms;
+}
+
+.nav-text {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+}
+
+.nav-text a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+}
+
+.nav-text a:hover {
+  background-color: black;
+}
+
+.nav-menu-items {
+  width: 100%;
+}
+
+.navbar-toggle {
+  background-color: #060b26;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+span {
+  margin-left: 16px;
+}
+.table {
+  display: flex;
+  margin-left: 260px;
+  font-size: 2rem;
+  width: fit-content;
+  font-size: medium;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+img{
+  margin-left: 10px;
+}
+
+/* dsfas */
+
+.heading{
+  text-align: center;
+  padding: 10px;
+}

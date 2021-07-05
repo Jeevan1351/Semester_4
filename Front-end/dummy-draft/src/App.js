@@ -2,7 +2,11 @@ import React from "react";
 
 import BasicForm from "./home";
 
+
+// import {Navbar} from './components/Navbar';
+
 // import Bananna from "./SignUp";
+import ProcPage from "./procPage";
 
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
@@ -14,15 +18,15 @@ import { Navbar, Nav, NavDropdown, Image, Table, Tab, Tabs, Button
 
  //import ReactPhone  from './phone'
 
-//  import fir_sem from './pages/1st_sem';
-//  import sec_sem from './pages/2nd_sem';
-//  import thir_sem from './pages/3rd_sem';
-//  import fort_sem from './pages/4th_sem';
-//  import fiv_sem from './pages/5th_sem';
-//  import six_sem from './pages/6th_sem';
-//  import Home from './pages/home';
-//  import sev_sem from './pages/7th_sem';
-//  import eig_sem from './pages/8th_sem';
+ import fir_sem from './pages/1st_sem';
+ import sec_sem from './pages/2nd_sem';
+ import thir_sem from './pages/3rd_sem';
+ import fort_sem from './pages/4th_sem';
+ import fiv_sem from './pages/5th_sem';
+ import six_sem from './pages/6th_sem';
+ import Home from './pages/home';
+ import sev_sem from './pages/7th_sem';
+ import eig_sem from './pages/8th_sem';
 class LandingPage extends React.Component{
   async componentDidMount(){
       window.gapi.load("signin2", ()=> {
@@ -89,6 +93,15 @@ class App extends React.Component {
                     <Route exact path="/"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path="/home"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path='/signup' render={() => this.ifUserSignedIn(SignUp)}/>
+                    <Route path='/' exact component={Home} />
+                    <Route path='/1st_sem' exact component={fir_sem} />
+                    <Route path='/2nd_sem' component={sec_sem} />
+                    <Route path='/3rd_sem' component={thir_sem} />
+                    <Route path='/4th_sem' component={fort_sem} />
+                    <Route path='/5th_sem' component={fiv_sem} />
+                    <Route path='/6th_sem' component={six_sem} />
+                    <Route path='/7th_sem' component={sev_sem} />
+                    <Route path='/8th_sem' component={eig_sem} />
                 </Switch>
             </BrowserRouter>
       </div>
@@ -761,7 +774,7 @@ class HomePage extends React.Component{
     }
     if(this.state.status && this.state.role === "Proctor")
     {
-      return (<ProctorHome data = {this.state}/>);
+      return (<ProcPage data={this.state}/>);
     
     }
     if(this.state.status === false)
@@ -796,127 +809,130 @@ class HomePage extends React.Component{
 }
 
 
-class ProctorHome extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      authInstance:this.props.data.authInstance,
-      students: [1, 2, 3],
-      role: "Proctor",
-      data: {department: "CSE", batch:"2024"},
-      profile:{
-        department:"",
-        batch: ""
-      },
-      selected : [],
-      semesters: [1, 2, 3],
-      studentsSorted: {1: [], 2:[], 3:[]}
-    }
-  }
+// class ProctorHome extends React.Component{
+//   constructor(props){
+//     super(props)
+//     this.state = {
+//       authInstance:this.props.data.authInstance,
+//       students: [1, 2, 3],
+//       role: "Proctor",
+//       data: {department: "CSE", batch:"2024"},
+//       profile:{
+//         department:"",
+//         batch: ""
+//       },
+//       selected : [],
+//       semesters: [1, 2, 3],
+//       studentsSorted: {1: [], 2:[], 3:[]}
+//     }
+//   }
 
-  componentDidMount(){
-    fetch(`http://localhost:8000/proctor/${this.props.data.gId}`).then(res => res.json().then(value => {
-      console.log(value)
-      this.setState(value)
-      this.cleanStudents()
-    }))
-  }
-
-
-  cleanStudents(){
-    var students = this.state.students
-    var semesters = []
-    var studentsSorted = {}
-    for(let i = 0; i<students.length; i++)
-    {
-      semesters.push(students[i].semester)
-      studentsSorted[students[i].semester] = [] 
-    }
-    semesters = [...new Set(semesters)]
-    for(let x = 0; x < semesters.length; x++)
-    {
-      for(let y = 0; y<students.length; y++)
-      {
-        if(students[y].semester === semesters[x])
-        {
-          studentsSorted[semesters[x]].push(students[y])
-        }
-      }
-    }
-    this.setState({studentsSorted, semesters})
-  }
+//   componentDidMount(){
+//     fetch(`http://localhost:8000/proctor/${this.props.data.gId}`).then(res => res.json().then(value => {
+//       console.log(value)
+//       this.setState(value)
+//       this.cleanStudents()
+//     }))
+//   }
 
 
-  getStudent(gid){
-    fetch(`http://localhost:8000/student/${gid}`).then(res => res.json().then(value=> {
-      console.log(value)
-      var arr = this.state.selected
-      arr.push(value)
-      this.setState({selected: arr})
-    }))
-  }
+//   cleanStudents(){
+//     var students = this.state.students
+//     var semesters = []
+//     var studentsSorted = {}
+//     for(let i = 0; i<students.length; i++)
+//     {
+//       semesters.push(students[i].semester)
+//       studentsSorted[students[i].semester] = [] 
+//     }
+//     semesters = [...new Set(semesters)]
+//     for(let x = 0; x < semesters.length; x++)
+//     {
+//       for(let y = 0; y<students.length; y++)
+//       {
+//         if(students[y].semester === semesters[x])
+//         {
+//           studentsSorted[semesters[x]].push(students[y])
+//         }
+//       }
+//     }
+//     this.setState({studentsSorted, semesters})
+//   }
 
 
-  render(){
-    return(<>
-      <div className="container emp-profile">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="profile-img">
-                  <Image src={this.props.data.img} alt="" width = "2" rounded/>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="profile-head">
-                <h5>Name: {this.state.profile.p_name}</h5>
-                <h5>Email: {this.state.profile.p_email}</h5>
-                <h5>Phone Number: {this.state.profile.p_mobile_no}</h5>
-              </div>
-            </div>
-          <div className="col-md-2">
-            <input type="submit"  onClick = {this.state.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
-          </div>
-      </div>
-        <div className="profile-tab" >
-          <br/><br/>
-            <div id="home" aria-labelledby="home-tab">
-            <Tabs defaultActiveKey={`Semester ${this.state.semesters[0]}`} id="noanim-tab-example">
-              {
-                this.state.semesters.map((sem, id) => {
-                  return(
-                  <Tab key={id} title={`Semester ${sem}`} eventKey={sem}>
-                    {
-                      this.state.studentsSorted[sem].map((student, idx) => {
-                        return(
-                        <div key={idx} className="Students">
-                          <p>Student Name : {student.name}</p>
-                          <p>Student USN: {student.usn}</p>
-                          <p>Student Semester: {student.semester}</p>
-                          <p>Student Phone Number: {student.mobile_no}</p>
-                          <p>Student DOB: {student.dob}</p>
-                          <Button variant="outline-secondary" onClick={() => this.getStudent(student.g_id)}>Get Student</Button>
-                        </div>
-                        )
-                      })
-                    }
+//   getStudent(gid){
+//     fetch(`http://localhost:8000/student/${gid}`).then(res => res.json().then(value=> {
+//       console.log(value)
+//       var arr = this.state.selected
+//       arr.push(value)
+//       this.setState({selected: arr})
+//     }))
+//   }
+
+
+//   render(){
+//     return(<>
+//       <div className="container emp-profile">
+//           <div className="row">
+//             <div className="col-md-4">
+//               <div className="profile-img">
+//                   <Image src={this.props.data.img} alt="" width = "2" rounded/>
+//               </div>
+//             </div>
+//             <div className="col-md-6">
+//               <div className="profile-head">
+//                 <h5>Name: {this.state.profile.p_name}</h5>
+//                 <h5>Email: {this.state.profile.p_email}</h5>
+//                 <h5>Phone Number: {this.state.profile.p_mobile_no}</h5>
+//               </div>
+//             </div>
+//           <div className="col-md-2">
+//             <input type="submit"  onClick = {this.state.authInstance.signOut} className="profile-edit-btn" name="btnAddMore" value="Sign Out"/>
+//           </div>
+//       </div>
+//         <div className="profile-tab" >
+//           <div>
+
+//           </div>
+//           <br/><br/>
+//             <div id="home" aria-labelledby="home-tab">
+//             <Tabs defaultActiveKey={`Semester ${this.state.semesters[0]}`} id="noanim-tab-example">
+//               {
+//                 this.state.semesters.map((sem, id) => {
+//                   return(
+//                   <Tab key={id} title={`Semester ${sem}`} eventKey={sem}>
+//                     {
+//                       this.state.studentsSorted[sem].map((student, idx) => {
+//                         return(
+//                         <div key={idx} className="Students">
+//                           <p>Student Name : {student.name}</p>
+//                           <p>Student USN: {student.usn}</p>
+//                           <p>Student Semester: {student.semester}</p>
+//                           <p>Student Phone Number: {student.mobile_no}</p>
+//                           <p>Student DOB: {student.dob}</p>
+//                           <Button variant="outline-secondary" onClick={() => this.getStudent(student.g_id)}>Get Student</Button>
+//                         </div>
+//                         )
+//                       })
+//                     }
                     
-                  </Tab>)
-                })
-              }
+//                   </Tab>)
+//                 })
+//               }
               
-              {/* <Tab eventKey="home" title="Home">
-                <p>Home tab</p>
-              </Tab>
-              <Tab eventKey="profile" title="Profile">
-                <p>Profile tab</p>
-              </Tab> */}
-            </Tabs>
-            </div>
-          </div>           
-        </div>
-      </>)
-  }
-}
+//               {/* <Tab eventKey="home" title="Home">
+//                 <p>Home tab</p>
+//               </Tab>
+//               <Tab eventKey="profile" title="Profile">
+//                 <p>Profile tab</p>
+//               </Tab> */}
+//             </Tabs>
+//             </div>
+//           </div>           
+//         </div>
+//       </>)
+//   }
+// }
 
 
 
@@ -1087,12 +1103,12 @@ class StudentHome extends React.Component {
           </div>
           <div className="col-md-6">
               <div className="profile-head">
-                          <h5>{this.state.profile.name}</h5>
-                          <h5>{this.state.profile.department} Deaprtment</h5>
-                          <h5>Batch - {this.state.profile.batch}</h5>
-                          <h5>Proctor - {this.state.proctor.p_name}</h5>
-                          <h5>Proctor Email - {this.state.proctor.p_email}</h5>
-                          <h5>Proctor Mobile No: {this.state.proctor.p_mobile_no}</h5>
+                <h5>{this.state.profile.name}</h5>
+                <h5>{this.state.profile.department} Deaprtment</h5>
+                <h5>Batch - {this.state.profile.batch}</h5>
+                <h5>Proctor - {this.state.proctor.p_name}</h5>
+                <h5>Proctor Email - {this.state.proctor.p_email}</h5>
+                <h5>Proctor Mobile No: {this.state.proctor.p_mobile_no}</h5>
               </div>
           </div>
           <div className="col-md-2">
