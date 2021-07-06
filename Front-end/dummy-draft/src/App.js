@@ -788,21 +788,6 @@ class HomePage extends React.Component{
   render(){
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-          </Nav>
-          <Nav>
-            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
-              <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
-              <NavDropdown.Divider />
-            </NavDropdown>
-        </Nav>
-        </Navbar.Collapse>
-      </Navbar>
       {this.what_to_do()}
     </>
     );
@@ -1094,6 +1079,21 @@ class StudentHome extends React.Component {
 
   render(){
     return(<>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+          </Nav>
+          <Nav>
+            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
+          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+              <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
+              <NavDropdown.Divider />
+            </NavDropdown>
+        </Nav>
+        </Navbar.Collapse>
+      </Navbar>
       <div className="container emp-profile">
         <form method="post">
           <div className="row">

@@ -58,9 +58,9 @@ function Navbar(props) {
   
 }
 
-function Table()
+function Table(props)
 {
-   
+   console.log(props)
 
    const columns=[
      {
@@ -85,7 +85,7 @@ function Table()
    ]
    const [data, setData] = useState([])
    useEffect(()=>{
-       fetch(`http://localhost:8000/studinformation/${sem}`)
+       fetch(`http://localhost:8000/proctor/?pid=${1}&sem=${sem}`)
        .then(resp=>resp.json())
        .then(resp=>{
         setData(resp)})
