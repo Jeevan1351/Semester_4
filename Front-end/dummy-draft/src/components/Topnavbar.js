@@ -4,7 +4,7 @@ import React,{useState,
 
 import {Image, Nav, NavDropdown} from 'react-bootstrap'
 // import './app.css';
-import ReorderIcon from '@material-ui/icons/Reorder';
+// import ReorderIcon from '@material-ui/icons/Reorder';
 import logo from '../Images/bmscelogo.png';
 // import { useDetectOutsideClick } from "./useDetectOutsideClick";
 
@@ -19,15 +19,15 @@ function TopNavbar(props){
   return (
   <div className="Navbar">
     <div className="leftSide">
-     <div className="links" id={showlinks ? "hidden" : ""}>
-      <img src={logo} alt="logo" width="40px" height="40px" /> 
-       <a href="/https://bmsce.ac.in/home/Sitemap">
+     <div className="links" id={showlinks ? "hidden" : ""} style={{display:'inline-block', justifyContent: 'flex-end'}}>
+      <img src={logo} alt="logo" width="40px" height="40px" />
+       <div style={{display:'inline-block'}}>
         Proctor Portal
-       </a>
+       </div>
      </div>
-     <button onClick={() => setshowlinks(!showlinks)}>
+     {/* <button onClick={() => setshowlinks(!showlinks)}>
       <ReorderIcon/>
-     </button>
+     </button> */}
      
     </div>
     <div className="rightSide">

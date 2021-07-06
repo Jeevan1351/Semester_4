@@ -19,7 +19,10 @@ const BasicForm = () => {
             </Nav>
             </Navbar.Collapse>
         </Navbar>
-        <div id="loginbox">
+        <div className="GoogleButton" id="loginbox">
+            <br />
+            <h3>Login or Sign-Up</h3>
+            <br />
             <div id="login-button"></div>
         </div>    
         </>

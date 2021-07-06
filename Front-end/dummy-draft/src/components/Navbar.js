@@ -15,9 +15,11 @@ function getData(id){
     console.log(sem);
 }
 
+let properties;
+
 function Navbar(props) {
   const [sidebar, setSidebar] = useState(false);
-
+  properties = props
   const showSidebar = () => setSidebar(!sidebar);
  
 
@@ -30,7 +32,6 @@ function Navbar(props) {
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
           <TopNavbar props={props}/>
-        
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>
@@ -42,7 +43,7 @@ function Navbar(props) {
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName} >
-                  <Link to={item.path} onClick={() => getData(item.id)}>
+                  <Link to={item.path} onClick={() => getData(item.id)} data={props}>
                     {item.icon}
                     <span>{item.title}</span>
                   </Link>
@@ -58,13 +59,13 @@ function Navbar(props) {
   
 }
 
-function Table(props)
+function Table()
 {
-   console.log(props)
+  //  console.log(properties.data.data)
 
    const columns=[
      {
-      title: 'Name',field: 'std_name'
+      title: 'Name',field: 'name'
      },
      {
       title: 'USN',field: 'usn'
@@ -84,11 +85,13 @@ function Table(props)
      }
    ]
    const [data, setData] = useState([])
+   console.log(data)
    useEffect(()=>{
-       fetch(`http://localhost:8000/proctor/?pid=${1}&sem=${sem}`)
+       fetch(`http://localhost:8000/proctor/${properties.data.data.gId}`)
        .then(resp=>resp.json())
        .then(resp=>{
-        setData(resp)})
+        //  console.log(resp)
+        setData(resp.students)})
    },[])
   return(
      <div className="table-proc">

@@ -1086,8 +1086,8 @@ class StudentHome extends React.Component {
           <Nav className="mr-auto">
           </Nav>
           <Nav>
-            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+            <Image src = {this.props.img} alt = "" width = "40" rounded></Image>
+          <NavDropdown title={this.state.profile.email} id="collasible-nav-dropdown">
               <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
               <NavDropdown.Divider />
             </NavDropdown>
