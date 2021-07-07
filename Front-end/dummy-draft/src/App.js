@@ -2,6 +2,7 @@ import React from "react";
 
 import BasicForm from "./home";
 
+// import SignUp from "./SignUpMani";
 
 // import {Navbar} from './components/Navbar';
 
@@ -19,15 +20,16 @@ import { Navbar, Nav, NavDropdown, Image, Table,
 
  //import ReactPhone  from './phone'
 
- import Fir_sem from './pages/1st_sem';
- import Sec_sem from './pages/2nd_sem';
+//  import Fir_sem from './pages/1st_sem';
+//  import Sec_sem from './pages/2nd_sem';
  import thir_sem from './pages/3rd_sem';
  import fort_sem from './pages/4th_sem';
  import fiv_sem from './pages/5th_sem';
  import six_sem from './pages/6th_sem';
- import Home from './pages/home';
+//  import Home from './pages/home';
  import sev_sem from './pages/7th_sem';
  import eig_sem from './pages/8th_sem';
+// import { Component } from "react";
 class LandingPage extends React.Component{
   async componentDidMount(){
       window.gapi.load("signin2", ()=> {
@@ -61,10 +63,10 @@ class App extends React.Component {
       window.gapi.auth2.init({
         client_id: '365387672860-0nufnftmst8vqpp4l2rlreje9jch3m3c.apps.googleusercontent.com'
       }).then(() => {
-        const authInstance =  window.gapi.auth2.getAuthInstance()
+        const authInstance = window.gapi.auth2.getAuthInstance()
         const isSignedIn = authInstance.isSignedIn.get()
         // console.log(isSignedIn)
-        this.setState({isSignedIn: isSignedIn, authInstance: authInstance})
+        this.setState({isSignedIn: isSignedIn})
         authInstance.isSignedIn.listen(isSignedIn => {
           this.state.isSignedIn?window.location.replace("/"):window.location.replace("/home")
           this.setState({isSignedIn})
@@ -95,9 +97,9 @@ class App extends React.Component {
                     <Route exact path="/"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path="/home"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path='/signup' render={() => this.ifUserSignedIn(SignUp)}/>
-                    <Route path='/' exact component={Home} />
-                    <Route path='/1st_sem' exact component={<Fir_sem data={this.state}/>} />
-                    <Route path='/2nd_sem' component={<Sec_sem data={this.state}/>} />
+                    {/* <Route path='/' exact component={Home} /> */}
+                    {/* <Route path='/1st_sem' exact component={<Fir_sem data={this.state}/>} />
+                    <Route path='/2nd_sem' component={<Sec_sem data={this.state}/>} /> */}
                     <Route path='/3rd_sem' component={thir_sem} />
                     <Route path='/4th_sem' component={fort_sem} />
                     <Route path='/5th_sem' component={fiv_sem} />
@@ -110,6 +112,7 @@ class App extends React.Component {
     );
   }
 }
+
 
 
 const initialState = {
@@ -151,80 +154,80 @@ const initialState = {
 
 
 class SignUp extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = initialState
-  }
   // constructor(props){
   //   super(props)
-  //   this.state = {
-  //     authInstance:0,
-  //     name:0,
-  //     email:0,
-  //     usn: 0,
-  //     department: null,
-  //     mobile_no: null,
-  //     proctor_id: null,
-  //     semester: 0,
-  //     section: 0,
-  //     batch: 0,
-  //     role:"Student",
-  //     img:0,
-  //     gId:0,
-  //     proctor:null,
-  //     dob:null,
-  //     respones:null,
-  //   }
-  // this.post_it=this.post_it.bind(this)
-
+  //   this.state = initialState
   // }
-  // componentDidMount(){
-  //   const authInstance = window.gapi.auth2.getAuthInstance()
-  //   const user = authInstance.currentUser.get()
-  //   const profile = user.getBasicProfile();
-  //   const email = profile.getEmail();
-  //   const name = profile.getName();
-  //   const img = profile.getImageUrl();
-  //   const googleId = profile.getId();
-  //   this.setState({
-  //     authInstance: authInstance,
-  //     name:name,
-  //     email:email,
-  //     img:img,
-  //     gId:googleId,
-  //   })
-  // }
+  constructor(props){
+    super(props)
+    this.state = {
+      authInstance:0,
+      name:0,
+      email:0,
+      usn: 0,
+      department: null,
+      mobile_no: null,
+      proctor_id: null,
+      semester: 0,
+      section: 0,
+      batch: 0,
+      role:"Student",
+      img:0,
+      gId:0,
+      proctor:null,
+      dob:null,
+      respones:null,
+    }
+  this.post_it=this.post_it.bind(this)
+
+  }
+  componentDidMount(){
+    const authInstance = window.gapi.auth2.getAuthInstance()
+    const user = authInstance.currentUser.get()
+    const profile = user.getBasicProfile();
+    const email = profile.getEmail();
+    const name = profile.getName();
+    const img = profile.getImageUrl();
+    const googleId = profile.getId();
+    this.setState({
+      authInstance: authInstance,
+      name:name,
+      email:email,
+      img:img,
+      gId:googleId,
+    })
+  }
 
 
-  // post_it(){
-  //   const requestOptions = {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ 
-  //       gid: this.state.gId,
-  //       role:this.state.role,
-  //       name:this.state.name,
-  //       dob:this.state.dob,
-  //       proctor:this.state.proctor,
-  //       email:this.state.email,
-  //       semester: this.state.semester,
-  //       mobile_no: this.state.mobile_no,
-  //       proctor_id: null,
-  //       department: this.state.department,
-  //       batch: this.state.batch,
-  //       usn: this.state.usn,
-  //       section:'B',
+  post_it(){
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        gid: this.state.gId,
+        role:this.state.role,
+        name:this.state.name,
+        dob:this.state.dob,
+        proctor:this.state.proctor,
+        email:this.state.email,
+        semester: this.state.semester,
+        mobile_no: this.state.mobile_no,
+        proctor_id: null,
+        department: this.state.department,
+        batch: this.state.batch,
+        usn: this.state.usn,
+        section:'B',
 
-  //     })
-  // }
+      })
+  }
 
-  // fetch('http://localhost:8000/user', requestOptions).then(window.location.replace('/home'))
-  // }
-  
+  fetch('http://localhost:8000/user', requestOptions).then(window.location.replace('/home'))
+  }
+
     handleChange = (event) => {
       const isCheckbox = event.target.type === "checkbox";
       this.setState({
-        [event.target.name]: isCheckbox
+        [event.target.name]:isCheckbox 
           ? event.target.checked
           : event.target.value
       });
@@ -611,119 +614,119 @@ class SignUp extends React.Component{
     );
   }
 
-  // render(){
-  //   return(<> 
-  //    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-  //       <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
-  //       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  //       <Navbar.Collapse id="responsive-navbar-nav">
-  //         <Nav className="mr-auto"></Nav>
-  //         <Nav>
-  //           <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-  //           <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
-  //               <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
-  //               <NavDropdown.Divider />
-  //           </NavDropdown>
-  //         </Nav>
-  //       </Navbar.Collapse>
-  //     </Navbar>
-  //   <div className="container emp-profile">
-  //     <div>
-  //       <label >Google ID:</label>
-  //       <input type="text" id="gid" name="gid" value={this.state.gId}readOnly/><br/><br/>
-  //       <label >Role:</label>
-  //       <input type="text" id="role" name="role" value="Student" readOnly/><br/><br/>
-  //       <label >Name:</label>
-  //       <input type="text"  name="name" value={this.state.name} readOnly/><br/><br/>
-  //       <label >Email:</label>
-  //       <input type="text"  name="email" value= {this.state.email} readOnly/><br/><br/>
-  //       <label >DOB:</label>
-  //       <input type="text"  name="dob" onChange={(e) => {this.setState({dob:e.target.value})}}/><br/><br/>
-  //       <label >Proctor:</label>
-  //       <input type="text"  name="proctor" onChange={(e)=> {this.setState({proctor:e.target.value})}}/><br/><br/>
-  //       <label >USN:</label>
-  //       <input type="text"  name="usn" onChange={(e)=> {this.setState({usn:e.target.value})}}/><br/><br/>
-  //       <label >department:</label>
-  //       <input type="text"  name="department" onChange={(e)=> {this.setState({department:e.target.value})}}/><br/><br/>
-  //       <label >batch:</label>
-  //       <input type="text"  name="batch" onChange={(e)=> {this.setState({batch:e.target.value})}}/><br/><br/>
-  //       <label >Mobile Number:</label>
-  //       <input type="text"  name="mobile_no" onChange={(e)=> {this.setState({mobile_no:e.target.value})}}/><br/><br/>
-  //       <label >Semster:</label>
-  //       <input type="text"  name="semester" onChange={(e)=> {this.setState({semester:parseInt(e.target.value)})}}/><br/><br/>
-  //       <input type="submit" onClick= {this.post_it} value="Submit"/>
-  //     </div>
-  //   </div>
-  //   </>
-  //    /* <>
-  //      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-  //        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
-  //        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  //        <Navbar.Collapse id="responsive-navbar-nav">
-  //          <Nav className="mr-auto">
-  //          </Nav>
-  //          <Nav>
-  //           <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
-  //          <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
-  //              <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
-  //              <NavDropdown.Divider />
-  //            </NavDropdown>
-  //        </Nav>
-  //        </Navbar.Collapse>
-  //      </Navbar>
-  //      <div className="container emp-profile">
-  //        <Form>
-  //          <Form.Group  md="8">
-  //            <Form.Label>Email address</Form.Label>
-  //            <Form.Control type="email" value={this.state.email} readOnly />
-  //         </Form.Group>
-  //          <Form.Group>
-  //            <Form.Label>Name</Form.Label>
-  //            <Form.Control type="email" value={this.state.name} readOnly />
-  //          </Form.Group>
-  //          <Form.Group controlId="dob">
-  //            <Form.Label>Date of Birth</Form.Label>
-  //            <Form.Control type="date" name="dob" placeholder="Date of Birth" />
-  //          </Form.Group>
-  //          <Form.Group>
-  //            <Form.Label>Department</Form.Label>
-  //            <Form.Control as="select">
-  //             <option>CSE</option>
-  //              <option>ISE</option>
-  //              <option>MECH</option>
-  //              <option>EC</option>
-  //              <option>EEE</option>
-  //              <option>Civil</option>
-  //              <option>Aerospace</option>
-  //              <option>Chemical</option>
-  //            </Form.Control>
-  //          </Form.Group>
-  //          <Form.Group controlId="exampleForm.ControlSelect1">
-  //            <Form.Label>Blood Group</Form.Label>
-  //            <Form.Control as="select">
-  //              <option>A+ve</option>
-  //              <option>B+ve</option>
-  //              <option>O+ve</option>
-  //              <option>AB+ve</option>
-  //              <option>A-ve</option>
-  //              <option>B-ve</option>
-  //              <option>O-ve</option>
-  //              <option>AB-ve</option>
-  //            </Form.Control>
-  //          </Form.Group>
-  //          <Form.Group>
-  //            <ReactPhone/>
-  //          </Form.Group>
-  //          <Button variant="primary" type="submit">
-  //            Submit
-  //          </Button>
+  /*render(){
+    return(<> 
+     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto"></Nav>
+          <Nav>
+            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
+            <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+                <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
+                <NavDropdown.Divider />
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    <div className="container emp-profile">
+      <div>
+        <label >Google ID:</label>
+        <input type="text" id="gid" name="gid" value={this.state.gId}readOnly/><br/><br/>
+        <label >Role:</label>
+        <input type="text" id="role" name="role" value="Student" readOnly/><br/><br/>
+        <label >Name:</label>
+        <input type="text"  name="name" value={this.state.name} readOnly/><br/><br/>
+        <label >Email:</label>
+        <input type="text"  name="email" value= {this.state.email} readOnly/><br/><br/>
+        <label >DOB:</label>
+        <input type="text"  name="dob" onChange={(e) => {this.setState({dob:e.target.value})}}/><br/><br/>
+        <label >Proctor:</label>
+        <input type="text"  name="proctor" onChange={(e)=> {this.setState({proctor:e.target.value})}}/><br/><br/>
+        <label >USN:</label>
+        <input type="text"  name="usn" onChange={(e)=> {this.setState({usn:e.target.value})}}/><br/><br/>
+        <label >department:</label>
+        <input type="text"  name="department" onChange={(e)=> {this.setState({department:e.target.value})}}/><br/><br/>
+        <label >batch:</label>
+        <input type="text"  name="batch" onChange={(e)=> {this.setState({batch:e.target.value})}}/><br/><br/>
+        <label >Mobile Number:</label>
+        <input type="text"  name="mobile_no" onChange={(e)=> {this.setState({mobile_no:e.target.value})}}/><br/><br/>
+        <label >Semster:</label>
+        <input type="text"  name="semester" onChange={(e)=> {this.setState({semester:parseInt(e.target.value)})}}/><br/><br/>
+        <input type="submit" onClick= {this.post_it} value="Submit"/>
+      </div>
+    </div>
+    </>
+      <>
+       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+         <Navbar.Brand href="#home">Proctor Portal</Navbar.Brand>
+         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+         <Navbar.Collapse id="responsive-navbar-nav">
+           <Nav className="mr-auto">
+           </Nav>
+           <Nav>
+            <Image src = {this.state.img} alt = "" width = "40" rounded></Image>
+           <NavDropdown title={this.state.email} id="collasible-nav-dropdown">
+               <NavDropdown.Item href="" onClick ={this.state.authInstance.signOut} >Sign Out</NavDropdown.Item>
+               <NavDropdown.Divider />
+             </NavDropdown>
+         </Nav>
+         </Navbar.Collapse>
+       </Navbar>
+       <div className="container emp-profile">
+         <Form>
+           <Form.Group  md="8">
+             <Form.Label>Email address</Form.Label>
+             <Form.Control type="email" value={this.state.email} readOnly />
+          </Form.Group>
+           <Form.Group>
+             <Form.Label>Name</Form.Label>
+             <Form.Control type="email" value={this.state.name} readOnly />
+           </Form.Group>
+           <Form.Group controlId="dob">
+             <Form.Label>Date of Birth</Form.Label>
+             <Form.Control type="date" name="dob" placeholder="Date of Birth" />
+           </Form.Group>
+           <Form.Group>
+             <Form.Label>Department</Form.Label>
+             <Form.Control as="select">
+              <option>CSE</option>
+               <option>ISE</option>
+               <option>MECH</option>
+               <option>EC</option>
+               <option>EEE</option>
+               <option>Civil</option>
+               <option>Aerospace</option>
+               <option>Chemical</option>
+             </Form.Control>
+           </Form.Group>
+           <Form.Group controlId="exampleForm.ControlSelect1">
+             <Form.Label>Blood Group</Form.Label>
+             <Form.Control as="select">
+               <option>A+ve</option>
+               <option>B+ve</option>
+               <option>O+ve</option>
+               <option>AB+ve</option>
+               <option>A-ve</option>
+               <option>B-ve</option>
+               <option>O-ve</option>
+               <option>AB-ve</option>
+             </Form.Control>
+           </Form.Group>
+           <Form.Group>
+             <ReactPhone/>
+           </Form.Group>
+           <Button variant="primary" type="submit">
+             Submit
+           </Button>
 
-  //        </Form>
-  //     </div>
+         </Form>
+      </div>
 
-  //      </> 
-  //   </>)*/)
-  // }
+       </> 
+    </>))
+  }*/
 }
 
 
@@ -771,7 +774,7 @@ class HomePage extends React.Component{
     if (this.state.gId !== 10000 && this.state.role === "Student"){
       // console.log(this.state.status, this.state.gId)
       return (
-        <StudentHome data = {this.state}/>
+        <StudentHome data ={this.state}/>
       )
     }
     if(this.state.status && this.state.role === "Proctor")
