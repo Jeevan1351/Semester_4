@@ -19,8 +19,8 @@ import { Navbar, Nav, NavDropdown, Image, Table,
 
  //import ReactPhone  from './phone'
 
- import fir_sem from './pages/1st_sem';
- import sec_sem from './pages/2nd_sem';
+ import Fir_sem from './pages/1st_sem';
+ import Sec_sem from './pages/2nd_sem';
  import thir_sem from './pages/3rd_sem';
  import fort_sem from './pages/4th_sem';
  import fiv_sem from './pages/5th_sem';
@@ -53,6 +53,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isSignedIn: null,
+      authInstance: null
     };
   }
   initializeGoogleSignIn() {
@@ -63,7 +64,7 @@ class App extends React.Component {
         const authInstance =  window.gapi.auth2.getAuthInstance()
         const isSignedIn = authInstance.isSignedIn.get()
         // console.log(isSignedIn)
-        this.setState({isSignedIn})
+        this.setState({isSignedIn: isSignedIn, authInstance: authInstance})
         authInstance.isSignedIn.listen(isSignedIn => {
           this.state.isSignedIn?window.location.replace("/"):window.location.replace("/home")
           this.setState({isSignedIn})
@@ -95,8 +96,8 @@ class App extends React.Component {
                     <Route path="/home"  render={() => this.ifUserSignedIn(HomePage)}/>
                     <Route path='/signup' render={() => this.ifUserSignedIn(SignUp)}/>
                     <Route path='/' exact component={Home} />
-                    <Route path='/1st_sem' exact component={fir_sem} />
-                    <Route path='/2nd_sem' component={sec_sem} />
+                    <Route path='/1st_sem' exact component={<Fir_sem data={this.state}/>} />
+                    <Route path='/2nd_sem' component={<Sec_sem data={this.state}/>} />
                     <Route path='/3rd_sem' component={thir_sem} />
                     <Route path='/4th_sem' component={fort_sem} />
                     <Route path='/5th_sem' component={fiv_sem} />
