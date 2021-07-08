@@ -28,7 +28,7 @@ insert into login values("110", "Student");
 insert into login values("110675810509613259155", "Proctor");
 delete from login where g_id = "108960148661406427027";
 delete from login where g_id = "003311224";
-delete from login where g_id = "110675810509613259155";
+delete from login where g_id = "105430859661740516776";
 
 drop table student;
 select * from student;
@@ -61,7 +61,7 @@ insert into student values("108", "Student", "108BM", "CSE", "108@bmsce.ac.in", 
 insert into student values("109", "Student", "109BM", "CSE", "109@bmsce.ac.in", "+11992288", "101-109", "110675810509613259155", "8", "D", "2021");
 insert into student values("110", "Student", "110BM", "CSE", "110@bmsce.ac.in", "+11992288", "101-110", "110675810509613259155", "8", "B", "2021");
 update student set proctor_id = "110675810509613259155" where g_id = "108960148661406427027"; 
-delete from student where batch = "2023";
+delete from student where name like "Proto%";
 select * from student s, proctor p where s.proctor_id = 12 and p.p_id and s.proctor_id = p.p_id;
 select * from student s, proctor p where s.g_id = 1 and s.proctor_id = p.p_id;
 select * from student where proctor_id = "21";
