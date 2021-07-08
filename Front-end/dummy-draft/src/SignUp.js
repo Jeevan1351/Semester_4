@@ -1,15 +1,4 @@
 import React from "react";
-
-import BasicForm from "./home";
-
-// import SignUp from "./SignUpMani";
-// import {Navbar} from './components/Navbar';
-// import Bananna from "./SignUp";
-// import ProcPage from "./procPage";
-import MaterialTable from 'material-table';
-
-import {BrowserRouter, Route, Switch} from "react-router-dom";
-
 import "./App.css";
 import { Navbar, Nav, NavDropdown, Image, Table,
   //  Tab, Tabs, 
