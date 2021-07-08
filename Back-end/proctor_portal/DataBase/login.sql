@@ -38,6 +38,7 @@ create table student(g_id varchar(30),role varchar(30), name varchar(50), usn va
                     proctor_id varchar(50), semester int, section varchar(3), batch varchar(10));
 alter table student add constraint PK_student_g_id primary key(g_id);
 alter table student add column img_url varchar(1000) default null;
+alter table student add column cgpa varchar(10) default "0.00";
 alter table student drop column role;
 alter table student drop primary key;
 alter table student add constraint PK_student primary key(usn);
@@ -58,7 +59,8 @@ insert into student values("106", "Student", "106BM", "CSE", "106@bmsce.ac.in", 
 insert into student values("107", "Student", "107BM", "CSE", "107@bmsce.ac.in", "+11992288", "101-107", "110675810509613259155", "6", "C", "2022");
 insert into student values("108", "Student", "108BM", "CSE", "108@bmsce.ac.in", "+11992288", "101-108", "110675810509613259155", "6", "A", "2022");
 insert into student values("109", "Student", "109BM", "CSE", "109@bmsce.ac.in", "+11992288", "101-109", "110675810509613259155", "8", "D", "2021");
-insert into student values("110", "Student", "110BM", "CSE", "110@bmsce.ac.in", "+11992288", "101-110", "110675810509613259155", "8", "B", "2021"); 
+insert into student values("110", "Student", "110BM", "CSE", "110@bmsce.ac.in", "+11992288", "101-110", "110675810509613259155", "8", "B", "2021");
+update student set proctor_id = "110675810509613259155" where g_id = "108960148661406427027"; 
 delete from student where batch = "2023";
 select * from student s, proctor p where s.proctor_id = 12 and p.p_id and s.proctor_id = p.p_id;
 select * from student s, proctor p where s.g_id = 1 and s.proctor_id = p.p_id;

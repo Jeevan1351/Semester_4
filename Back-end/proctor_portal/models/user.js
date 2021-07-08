@@ -20,7 +20,7 @@ User.create = (newUser, result) => {
             if(err) console.log(err)
             p_id = res[0].p_id
         
-        var student_query = sql.query(`insert into student values("${newUser.gid}", "${newUser.profile.name}", "${newUser.profile.usn}" , "${newUser.profile.department}", "${newUser.profile.email}" , "${newUser.profile.mobile_no}","${newUser.profile.dob}", "${p_id}", ${newUser.profile.semester}, "${newUser.profile.section}" , "${newUser.profile.batch}");`, (err, res)=> {
+        var student_query = sql.query(`insert into student values("${newUser.gid}", "${newUser.profile.name}", "${newUser.profile.usn}" , "${newUser.profile.department}", "${newUser.profile.email}" , "${newUser.profile.mobile_no}","${newUser.profile.dob}", "${p_id}", ${newUser.profile.semester}, "${newUser.profile.section}" , "${newUser.profile.batch}", "${newUser.profile.img}", "0.00");`, (err, res)=> {
             if(err) {
                 console.log(err)
                 var delete_login = sql.query(`delete from login where g_id=${newUser.gid};`, (err, res) => {
