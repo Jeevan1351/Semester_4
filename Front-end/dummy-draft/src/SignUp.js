@@ -5,6 +5,8 @@ import { Navbar, Nav, NavDropdown, Image, Table,
    Button
 //   Form, Button
  } from 'react-bootstrap';
+ 
+
 // import { green } from "@material-ui/core/colors";
 
  //import ReactPhone  from './phone'
@@ -356,7 +358,7 @@ const initialState = {
               </Nav>
               </Navbar.Collapse>
             </Navbar>
-        <div id="login-box" align="center">
+        <div id="login-box" textAlign = "center">
           <h1 className="heading" align="center" style={{ paddingTop: "1.2em" }}>
             Registration-form
           </h1>
@@ -379,6 +381,7 @@ const initialState = {
               </a>
             </button>
           </div>
+        
   
           <div className="tabcontent">
             <form onSubmit={this.handleSubmit}>
@@ -446,8 +449,7 @@ const initialState = {
                     placeholder="DD/MM/YYYY"
                     value={this.state.DOB}
                     onChange={this.handleChange}
-                    // style={{ width: "53.5rem" }}
-                  />
+                  />   
                 </div>
                 <div style={{ fontSize: 12, color: "red" }}>
                   {this.state.DOBError}

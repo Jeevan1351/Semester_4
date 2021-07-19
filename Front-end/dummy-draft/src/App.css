@@ -1,25 +1,76 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-weight: 300;
+  background-size: 100%;
+  text-align: center;
+  background: -webkit-linear-gradient(left, #303030, #808080);
+}
+
 .GoogleButton h3{
   color: #0062cc;
 }
 .GoogleButton{
-  width: 25%;
-  height: 40%;
+  width: 45%;
+  height: 80%;
   position: absolute;
   justify-content: center;
   border-radius: 2%;
   border: 5px solid #B0E0E6;
-  /* display: flex; */
-  /* align-items: center; */
-  /* align: center; */
-  margin: 10% 0% 0% 35%;
+  margin: 3% 0% 2% 35%;
+  background: -webkit-linear-gradient(left,#eacda3 , white);
+  margin-left: -3%;
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 0%;
+  border-right: 0;
+}
+
+
+
+.sidebox{
+  width: 42%;
+  height: 80%;
+  position: absolute;
+  justify-content: center;
+  border-radius: 2%;
+  border: 5px solid #B0E0E6;
   background-color: white;
+  margin: 3% 0% 2% 35%;
+  margin-left: 42%;
+  border-top-left-radius: 0%;
+  border-bottom-left-radius: 0%;
+  border-left: 0;
 }
-#login-button{
-  padding-left: 32%;
+
+.vimage{
+  width: 90%;
+  height: 100%;
 }
-body{
-  background: -webkit-linear-gradient(left, #303030, #808080);
+
+.cimage{
+  width: 50px;
+  height: 50px;
 }
+
+p{
+  font-size: 20px;
+  font-weight: 400;
+}
+.email{
+  color: rgb(180, 25, 25);
+  cursor: pointer;
+}
+/* #loginbox{
+  margin-left: 10%;
+} */
+
+/* #login-button{
+  padding-left: 20%;
+} */
+
 .emp-profile{
   padding: 3%;
   margin-top: 3%;
@@ -116,33 +167,25 @@ border: 2px solid white;
     color: black;
   }
 
-  h4 {
+  /* h4 {
     color: white
   }
     label{
       float:left;
       color: white;
-    }
+    } */
   
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #4f4f4f;
-      font-size: 16px;
-      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-        "Lucida Sans", Arial, sans-serif;
-      font-weight: 300;
-      background-size: 100%;
-      text-align: center;
-    }
+    
     
     #login-box {
       position: relative;
       margin: 2% auto;
       width: 90%;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
-      background-color: rgba(243, 240, 240, 0.3);
-      background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+      background-image: url("https://www.transparenttextures.com/patterns/always-grey.png");
+       background-color: rgb(245, 239, 239);
+       text-align: center;
+     
     }
     
     .pointer {
@@ -162,6 +205,7 @@ border: 2px solid white;
       font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
         "Lucida Sans", Arial, sans-serif;
     }
+   
     .active-tabs {
       border-bottom: 1px solid transparent;
       border: 1px solid white;
@@ -191,27 +235,23 @@ border: 2px solid white;
     input:ho button:hover {
       opacity: 0.8;
     }
-    input[type="text"] {
+    input[type="text"], .date {
       width: 80%;
       padding: 15px 22px;
       margin: 10px 8px;
       box-sizing: border-box;
       border-radius: 8px;
     }
-    input[type="password"] {
-      width: 60%;
-      padding: 15px 22px;
-      margin: 10px 5px;
-      box-sizing: border-box;
-      border-radius: 8px;
-    }
     
-    input {
+    input, .date {
       border: none;
       border-bottom: solid 0.25px;
       border-bottom-color: #aaa9a9;
     }
     
+    .date{
+      background-color: white;
+    }
     .tab button {
       background-color: inherit;
       color: white;
